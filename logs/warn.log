@@ -1,0 +1,10 @@
+[2018-02-12 21:15:02,741][restartedMain][WARN][org.mybatis.spring.mapper.ClassPathMapperScanner:240] Skipping MapperFactoryBean with name 'ruleNumberMapper' and 'com.pk10.active.console.mapper.RuleNumberMapper' mapperInterface. Bean already defined with the same name!
+[2018-02-12 21:15:02,742][restartedMain][WARN][org.mybatis.spring.mapper.ClassPathMapperScanner:240] Skipping MapperFactoryBean with name 'ruleSideMapper' and 'com.pk10.active.console.mapper.RuleSideMapper' mapperInterface. Bean already defined with the same name!
+[2018-02-12 21:15:02,742][restartedMain][WARN][org.mybatis.spring.mapper.ClassPathMapperScanner:240] Skipping MapperFactoryBean with name 'userMapper' and 'com.pk10.active.console.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+[2018-02-12 21:15:02,766][restartedMain][WARN][org.mybatis.spring.mapper.ClassPathMapperScanner:167] No MyBatis mapper was found in '[com.pk10.active.console.mapper]' package. Please check your configuration.
+[2018-02-12 21:15:08,975][restartedMain][WARN][springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader:86] Trying to infer dataType java.lang.String[]
+[2018-02-12 21:15:08,976][restartedMain][WARN][springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader:86] Trying to infer dataType java.lang.String[]
+[2018-02-12 21:15:09,043][restartedMain][WARN][springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader:86] Trying to infer dataType java.lang.String[]
+[2018-02-12 21:15:09,044][restartedMain][WARN][springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader:86] Trying to infer dataType java.lang.String[]
+[2018-02-12 21:15:09,140][restartedMain][WARN][springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader:86] Trying to infer dataType java.lang.String[]
+[2018-02-12 21:15:09,141][restartedMain][WARN][springfox.documentation.spring.web.readers.parameter.ParameterDataTypeReader:86] Trying to infer dataType java.lang.String[]

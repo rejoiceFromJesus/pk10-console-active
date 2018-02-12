@@ -1,0 +1,222 @@
+<div id="user-table"></div>
+<div id="user-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		<a href="#" onclick="addUser(this)" class="easyui-linkbutton"
+			iconCls="icon-add" plain="false"></a> <a href="#"
+			onclick="updateUser(this)" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="false"></a> <a href="#"
+			class="easyui-linkbutton" onclick="deleteUser(this)" iconCls="icon-remove" plain="false"></a>
+	</div>
+	<div style="margin-left: 20px;">
+		<input class="easyui-validatebox" name="username" placeholder="用户名"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+			class="easyui-validatebox" name="mobile" placeholder="手机号"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchUser()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+
+<div id="userDialog" class="easyui-dialog"
+	style="width: 500px; height: 400px; padding: 10px 20px" closed="true"
+	buttons="#userButtons">
+	<form id="userForm" class="fm" method="post">
+		<input type="hidden" name="id" />
+		<input type="hidden" name="oldPassword" />
+		<div class="fitem">
+			<label>用户名:</label> <input name="username" class="easyui-textbox"
+				required="true" />
+		</div>
+			<div class="fitem">
+			<label>密码:</label> <input name="password" class="easyui-textbox"
+				type="password" required="true" />
+		</div>
+		<div class="fitem">
+			<label>手机号:</label> <input  required="true" name="mobile" class="easyui-textbox" />
+		</div>
+		<div class="fitem">
+			<label>管理员:</label> <select  id="sex" class="easyui-combobox"
+				data-options="required:true" name="isAdmin"
+				style="width: 206px; height: 32px;">
+				<option value="false">否</option>
+				<option value="true">是</option>
+			</select>
+		</div>
+		<div class="fitem">
+			<label>描述:</label> <textarea  name="remark" cols="30" rows="5" style="    outline-style: none;
+    padding: 4px;border-radius: 4px;" ></textarea>
+		</div>
+	</form>
+</div>
+
+
+<div id="userButtons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="saveUser()" style="width: 90px">确定</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#userDialog').dialog('close')"
+			style="width: 90px">取消</a>
+</div>
+
+<!-- change pwd dialog starts -->
+
+<div id="pwd-dialog" class="easyui-dialog"
+	style="width: 450px; height: 200px; padding: 10px 20px" modal="true" closed="true"
+	buttons="#pwd-buttons">
+	<form id="pwd-form" class="fm" method="post">
+	<input type="hidden" name="id" />
+		<div class="fitem">
+			新密码: <input name="password" class="easyui-textbox"
+				required="true" />
+		</div>
+	</form>
+</div>
+<div id="pwd-buttons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="submitChangePwd()" style="width: 90px">确定</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#pwd-dialog').dialog('close')"
+			style="width: 90px">取消</a>
+</div>
+<!-- change pwd dialog ends -->
+
+
+<script>
+$(function(){
+	initUserTable()
+})
+function initUserTable(){
+	$('#user-table').datagrid({
+	    url:'/user/page/',
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#user-toolbar",
+	    striped:true,
+	    pagination:true,
+	    pageList:[10,30,50,100],
+	    rowStyler:function(){
+	    	return "height:40px;"
+	    },
+	    columns:[[
+			{field:'id',title:'选择',checkbox:true,width:"5%"},
+			{field:'username',title:'用户名',width:"10%"},
+			{field:'balance',title:'余额',width:"10%"},
+			{field:'mobile',title:'手机号',width:"11%"},
+			{field:'admin',title:'管理员',width:"10%"},
+			{field:'remark',title:'描述',width:"20%"},
+			{field:'createTime',title:'创建时间',width:"10%"},
+			{field:'updateTime',title:'更新时间',width:"10%"},
+			{field:'opt',title:'操作',width:"18%",formatter: function(value,row,index){
+				return '<a  href="#" class="button button-primary button-pill button-3d  button-tiny" onClick="changePwd('+row.id+',\''+row.username+'\')">修改密码</a>'+
+				' <a  href="#" class="button button-primary button-pill button-3d  button-tiny" onClick="recharge()">充值</a>';
+			}}
+			]]
+	})};
+var userMethod = "GET";
+	function searchUser(selector, params) {
+		$('#userList').datagrid('load', {
+			username : $("#userTB").find("input[name='username']").val(),
+			realName : $("#userTB").find("input[name='realName']").val()
+		});
+	}
+	function addUser() {
+		$('#userDialog').dialog('open').dialog('setTitle', '新增用户');
+		$('#userForm').form('clear');
+		userMethod="POST";
+	}
+	
+	function changePwd(id,username) {
+		$('#pwd-dialog').dialog('open').dialog('setTitle', '修改【'+username+'】的密码');
+		$('#pwd-form').form('clear');
+		$('#pwd-form').form('load', {"id":id});
+	}
+	
+	function submitChangePwd(){
+		if (!$('#pwd-form').form('validate')) {
+			$.messager.alert('提示', '表单还未填写完成!');
+			return;
+		}
+		
+		$.ajax({
+					url:"/user/change-pwd",
+					method:"put",
+					contentType:"application/json;charset=utf-8",
+					data:JSON.stringify($("#pwd-form").serializeFormJSON()),
+				}).done(function(data){
+					$('#pwd-dialog').dialog('close');
+					alert(JSON.stringify(data, undefined, 2));
+				})
+	}
+
+	
+	function updateUser() {
+		var rows = $('#userList').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行")
+		}else if(rows.length > 1){
+			alert("只能选择一行")
+		}else{
+			$('#userDialog').dialog('open').dialog('setTitle', '编辑用户');
+			$('#userForm').form('load', rows[0]);
+		}
+		
+		userMethod = "PUT"
+	}
+	function deleteUser(){
+		var rows = $('#userList').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行");
+		}else{
+			confirm('温馨提示','您确定要删除吗?',null,function(r){
+				if (r){
+					$.ajax({
+						type : "DELETE",
+						url : "/user/"+getSelectedIds(rows),
+						contentType:"application/json;charset=utf-8",
+						//data :  JSON.stringify(params),
+						success : function(msg) {
+							$("#userList").datagrid("reload");
+		    				 $('#userList').datagrid('clearChecked')
+							$.messager.alert({
+				    			title: "温馨提示",
+				    			msg: "删除成功",
+				    			fn: function(){
+				    				
+				    			}
+				    		});
+						}
+					});
+				}
+			});
+		}
+	}
+	function saveUser(){
+		if (!$('#userForm').form('validate')) {
+			$.messager.alert('提示', '表单还未填写完成!');
+			return;
+		}
+		//提交到后台的RESTful
+		$.ajax({
+			type : userMethod,
+			url : "/user",
+			contentType:"application/json;charset=utf-8",
+			data :   JSON.stringify($("#userForm").serializeFormJSON()),
+			success : function(msg) {
+				$('#userDialog').dialog('close');
+				$("#userList").datagrid("reload");
+				 $('#userList').datagrid('clearChecked')
+				$.messager.alert({
+	    			title: $('#userDialog').panel('options').title,
+	    			msg: "操作成功",
+	    			fn: function(){
+	    				$("#userList").datagrid("reload");
+	    			}
+	    		});
+			}
+		});
+	}
+	
+</script>

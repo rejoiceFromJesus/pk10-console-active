@@ -1,0 +1,141 @@
+	<table id="companyList" class="easyui-datagrid" title="公司列表" style="height:100%;width:100%;"
+			idField="id" data-options="fitColumns:true,nowrap : false,
+			striped:true,rownumbers:true,singleSelect:true,pagination:true,
+			singleSelect:false,loadMsg:'正在加载数据。。。',checkOnSelect:false,
+			multiSort:true, 
+			url:'/company/page',method:'get',toolbar:'#companyTB'">
+		<thead>
+			<tr>
+				<th field="ck" checkbox="true"></th>
+				<th data-options="field:'name',width:200,sortable:true">公司名称</th>
+				<th data-options="field:'code',width:100">公司代码</th>
+				<th data-options="field:'maxActiveSize',width:100,sortable:true">最大激活量</th>
+				<th data-options="field:'activeSize',width:100,sortable:true">已激活</th>
+				<th data-options="field:'description',width:200">描述</th>
+				<th data-options="field:'createTime',width:200,sortable:true">创建时间</th>
+				<th data-options="field:'updateTime',width:200,sortable:true">更新时间</th>
+			</tr>
+		</thead>
+	</table>
+	<div id="companyTB" style="padding:5px;height:auto">
+		<div style="margin-bottom:5px">
+			<a href="#" class="easyui-linkbutton" onclick="addCompany()" iconCls="icon-add" plain="true"></a>
+			<a href="#" class="easyui-linkbutton" onclick="updateCompany()" iconCls="icon-edit" plain="true"></a>
+			<a href="#" class="easyui-linkbutton" onclick="deleteCompany()" iconCls="icon-remove" plain="true"></a>
+		</div>
+		<div style="margin-left:20px;">
+			<input class="easyui-validatebox" id="name" placeholder="公司名称" style="width:200px" />&nbsp;&nbsp;&nbsp;&nbsp;
+			<input class="easyui-validatebox" id="code" placeholder="公司代码" style="width:150px" />&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="#" class="easyui-linkbutton" plan="true" onclick="searchCompany()" iconCls="icon-search">查询</a>
+		</div>
+	</div>
+	
+	
+	<div id="companyDialog" class="easyui-dialog"
+	style="width: 500px; height: 400px; padding: 10px 20px" closed="true"
+	buttons="#companyButtons">
+	<form id="companyForm" class="fm" method="post">
+		<input type="hidden" name="id" />
+		<div class="fitem">
+			<label>公司名称:</label> <input name="name" class="easyui-textbox"
+				required="true" />
+		</div>
+		<div class="fitem">
+			<label>公司代码:</label> <input name="code" class="easyui-textbox"
+				required="true" />
+		</div>
+			<div class="fitem">
+			<label>最大激活量:</label> <input name="maxActiveSize" data-options="precision:0,min:1"
+				class="easyui-numberbox" required="true" />
+		</div>
+		<div class="fitem">
+			<label>描述:</label> <input name="description" class="easyui-textbox" />
+		</div>
+	</form>
+</div>
+<div id="companyButtons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="saveCompany()" style="width: 90px">Save</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#companyDialog').dialog('close')"
+			style="width: 90px">Cancel</a>
+</div>
+<script>
+var companyMethod = "GET";
+function searchCompany(){
+	$('#companyList').datagrid('load',{
+		name: $('#name').val(),
+		code: $('#code').val()
+	});
+}
+	function addCompany() {
+		$('#companyDialog').dialog('open').dialog('setTitle', '新增公司');
+		$('#companyForm').form('clear');
+		companyMethod="POST";
+	}
+
+	function updateCompany() {
+		var row = $('#companyList').datagrid('getChecked');
+		console.info(row)
+		if(row.length==0){
+			alert("至少选择一行")
+		}else if(row.length > 1){
+			alert("只能选择一行")
+		}else{
+			$('#companyDialog').dialog('open').dialog('setTitle', '编辑公司');
+			$('#companyForm').form('load', row[0]);
+		}
+		
+		companyMethod = "PUT"
+	}
+	function deleteCompany(){
+		var rows = $('#companyList').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行");
+		}else{
+			confirm('温馨提示','您确定要删除吗?',null,function(r){
+				if (r){
+					$.ajax({
+						type : "DELETE",
+						url : "/company/"+getSelectedIds(rows),
+						contentType:"application/json;charset=utf-8",
+						success : function(msg) {
+							$.messager.alert({
+				    			title: "温馨提示",
+				    			msg: "删除成功",
+				    			fn: function(){
+				    				$("#companyList").datagrid("reload");
+				    				 $('#companyList').datagrid('clearChecked')
+				    			}
+				    		});
+						}
+					});
+				}
+			});
+		}
+	}
+	function saveCompany(){
+		if (!$('#companyForm').form('validate')) {
+			$.messager.alert('提示', '表单还未填写完成!');
+			return;
+		}
+		//提交到后台的RESTful
+		$.ajax({
+			type : companyMethod,
+			url : "/company",
+			contentType:"application/json;charset=utf-8",
+			data :   JSON.stringify($("#companyForm").serializeFormJSON()),
+			success : function(msg) {
+				$('#companyDialog').dialog('close');
+				$.messager.alert({
+	    			title: $('#companyDialog').panel('options').title,
+	    			msg: "操作成功",
+	    			fn: function(){
+	    				$("#companyList").datagrid("reload");
+	    			}
+	    		});
+			}
+		});
+	}
+</script>
