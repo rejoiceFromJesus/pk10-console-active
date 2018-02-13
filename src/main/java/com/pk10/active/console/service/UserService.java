@@ -28,6 +28,7 @@ import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.util.RejoiceUtil;
 import com.pk10.active.console.entity.RechargeRecord;
+import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.mapper.UserMapper;
 
@@ -48,6 +49,8 @@ public class UserService extends BaseService<User> {
 	
 	@Autowired
 	RechargeRecordService rechargeRecordService;
+	@Autowired
+	TradeRecordService tradeRecordService;
 	@Autowired
 	UserMapper userMapper;
 
@@ -77,6 +80,15 @@ public class UserService extends BaseService<User> {
 		rechargeRecord.setRemark("充值");
 		rechargeRecord.setTradeTime(DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2));
 		rechargeRecordService.saveSelective(rechargeRecord);
+		//add TradeRecord
+		TradeRecord tradeRecord = new TradeRecord();
+		tradeRecord.setMobile(mobile);
+		tradeRecord.setMoney(money);
+		tradeRecord.setRemark("充值");
+		tradeRecord.setTradeTime(rechargeRecord.getTradeTime());
+		tradeRecord.setType(TradeRecord.TYPE_RECHARGE);
+		tradeRecord.setBalance(updateUser.getBalance());
+		tradeRecordService.saveSelective(tradeRecord);
 	} 
 	 
 }

@@ -3,4 +3,5 @@
 /.project
 target/
 *.log
-
+logs/
+/logs/
