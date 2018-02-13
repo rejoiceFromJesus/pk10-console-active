@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
 import com.pk10.active.console.common.constant.Constant;
+import com.pk10.active.console.entity.RechargeRecord;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.handler.InvalidParamException;
 import com.pk10.active.console.service.UserService;
@@ -50,7 +51,11 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags="用户模块")
 public class UserController extends BaseController<User,UserService>{
 
-	
+	@PutMapping("/recharge")
+	public Result<Boolean> changePwd(@RequestBody RechargeRecord rechargeRecord){
+		this.getService().recharge(rechargeRecord.getMobile(),rechargeRecord.getMoney());
+		return Result.success(true);
+	}
 	@PutMapping("/change-pwd")
 	public Result<Boolean> changePwd(@RequestBody User user){
 		user.setPassword(DigestUtils.md5Hex(user.getPassword()));

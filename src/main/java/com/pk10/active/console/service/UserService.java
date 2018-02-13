@@ -9,10 +9,13 @@
  */
 package com.pk10.active.console.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +25,12 @@ import tk.mybatis.mapper.util.StringUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.util.RejoiceUtil;
+import com.pk10.active.console.entity.RechargeRecord;
 import com.pk10.active.console.entity.User;
+import com.pk10.active.console.mapper.UserMapper;
+
 
 /**
  *
@@ -38,6 +45,11 @@ import com.pk10.active.console.entity.User;
 @Service
 @Transactional
 public class UserService extends BaseService<User> {
+	
+	@Autowired
+	RechargeRecordService rechargeRecordService;
+	@Autowired
+	UserMapper userMapper;
 
 	
 	/* (non-Javadoc)
@@ -49,15 +61,22 @@ public class UserService extends BaseService<User> {
 		super.save(user);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.pk10.active.console.service.BaseService#updateByIdSelective(java.lang.Object)
-	 */  
-	@Override    
-	public void updateByIdSelective(User t){
-		if(!t.getOldPassword().equals(t.getPassword())){ 
-			t.setPassword(DigestUtils.md5Hex(t.getPassword()));
-		}  
-		super.updateByIdSelective(t);  
+
+	public void recharge(String mobile, BigDecimal money) {
+		User userCons = new User();
+		userCons.setMobile(mobile);
+		User user = userMapper.selectOne(userCons);
+		User updateUser = new User();
+		updateUser.setId(user.getId());
+		updateUser.setBalance(user.getBalance().add(money));
+		this.updateByIdSelective(updateUser);
+		//add rechargeRecord
+		RechargeRecord rechargeRecord = new RechargeRecord();
+		rechargeRecord.setMobile(mobile);
+		rechargeRecord.setMoney(money);
+		rechargeRecord.setRemark("充值");
+		rechargeRecord.setTradeTime(DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2));
+		rechargeRecordService.saveSelective(rechargeRecord);
 	} 
 	 
 }

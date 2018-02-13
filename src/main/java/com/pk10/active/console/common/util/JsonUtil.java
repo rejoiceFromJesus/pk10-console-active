@@ -1,12 +1,27 @@
 package com.pk10.active.console.common.util;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
+import javax.sound.midi.SysexMessage;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.pk10.active.console.common.json.DateDeserializer;
+import com.pk10.active.console.common.json.DateSerializer;
 
 /**
  * 
@@ -18,10 +33,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 @Component
 @Lazy(false)
-public final class JsonUtil {
+public final class JsonUtil implements InitializingBean{
 
 	
-	@Autowired
+	@Autowired(required=false)
 	private ObjectMapper mapper;
 	
 	private static ObjectMapper mapperTemp = null;
@@ -78,8 +93,34 @@ public final class JsonUtil {
 		return rtv;
 	}
 	
-	@PostConstruct
-	public void init(){
+	
+	public static ObjectMapper buildObjectMapper(){
+		SimpleModule simpleModule = new SimpleModule();
+		simpleModule.addDeserializer(Date.class, new DateDeserializer());
+		simpleModule.addSerializer(Date.class, new DateSerializer());
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.registerModule(simpleModule);
+		mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+		//mapper.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+		Calendar cal = Calendar.getInstance();
+		TimeZone timeZone = cal.getTimeZone();
+		mapper.setTimeZone(timeZone);
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		//mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		mapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+		return mapper;
+	}
+
+
+	/* (non-Javadoc)
+	 * @see org.springframework.beans.factory.InitializingBean#afterPropertiesSet()
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if(mapper == null){
+			mapper = buildObjectMapper();
+		}
 		mapperTemp = mapper;
+		
 	}
 }

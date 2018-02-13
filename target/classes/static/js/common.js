@@ -11,7 +11,7 @@ $( document ).ajaxError(function(event, jqxhr, settings, thrownError ) {
 	if(jqxhr.status == 0){
 		return;
 	}
- 	$.messager.alert({title:"操作失败："+jqxhr.status,icon:"error",width:300,height:250,msg:jqxhr.responseText});
+ 	alert("<pre>"+JSON.stringify(jqxhr.responseJSON, undefined, 2)+"</pre>");
 });
 
 /*serialize form to json*/

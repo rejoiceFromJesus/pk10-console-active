@@ -1,22 +1,34 @@
 package com.pk10.active.console.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Table;
 
 @Table(name="recharge_record")
 public class RechargeRecord extends BaseEntity{
 	
+	private String mobile;
+	private BigDecimal money;
+	private String tradeTime;
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public BigDecimal getMoney() {
+		return money;
+	}
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
+	public String getTradeTime() {
+		return tradeTime;
+	}
+	public void setTradeTime(String tradeTime) {
+		this.tradeTime = tradeTime;
+	}
 	
 	
-/*
-	REATE TABLE `recharge_record` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT,
-			  `mobile` varchar(25) DEFAULT NULL,
-			  `remark` varchar(255) DEFAULT NULL,
-			  `money` decimal(10,2) DEFAULT NULL,
-			  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-			  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-			  `trade_time` varchar(25) DEFAULT NULL,
-			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-*/
+	
 }
