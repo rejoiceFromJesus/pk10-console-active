@@ -29,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.bean.EasyUIResult;
+import com.pk10.active.console.common.bean.Result;
 import com.pk10.active.console.service.BaseService;
 
 /**
@@ -77,17 +78,20 @@ public class BaseController<T,S> {
 		return ResponseEntity.ok(easyUIResult);
 	}
 	@PutMapping
-	public void update(@RequestBody T t) throws Exception{
+	public Result<Boolean> update(@RequestBody T t) throws Exception{
 		baseService.updateByIdSelective(t);
+		return Result.success(true);
 	}     
 	
 	@PostMapping 
-	public void save(@RequestBody T t) throws Exception{
+	public Result<Boolean> save(@RequestBody T t) throws Exception{
 		baseService.saveSelective(t);
+		return Result.success(true);
 	}
 	@DeleteMapping("{ids}")
-	public void delete(@PathVariable("ids") String ids){
+	public Result<Boolean> delete(@PathVariable("ids") String ids){
 		baseService.deleteByIds(Arrays.asList(ids.split(",")));
+		return Result.success(true);
 	}
 	@GetMapping("{id}")
 	public T getById(@PathVariable("id") Serializable id){
