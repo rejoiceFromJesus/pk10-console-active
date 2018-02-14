@@ -118,8 +118,9 @@ function initUserTable(){
 var userMethod = "GET";
 	function searchUser(selector, params) {
 		$('#user-table').datagrid('load', {
-			username : $("#userTB").find("input[name='username']").val(),
-			realName : $("#userTB").find("input[name='realName']").val()
+			username : $("#user-toolbar").find("input[name='username']").val(),
+			mobile : $("#user-toolbar").find("input[name='mobile']").val(),
+			likes : "username"
 		});
 	}
 	function addUser() {

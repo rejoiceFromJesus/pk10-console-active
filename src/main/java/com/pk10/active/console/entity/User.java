@@ -29,6 +29,11 @@ import javax.persistence.Transient;
  */
 @Table(name="user")
 public class User extends BaseEntity {
+	
+	@Transient
+	private String likes;
+	
+	
 	@Transient
 	private String oldPassword;
 	
@@ -88,6 +93,12 @@ public class User extends BaseEntity {
 	}
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
+	}
+	public String getLikes() {
+		return likes;
+	}
+	public void setLikes(String likes) {
+		this.likes = likes;
 	}
 	
 }
