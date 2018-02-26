@@ -20,7 +20,11 @@ $(function(){
 })
 function initTradeRecordTable(){
 	$('#trade-record-table').datagrid({
-	    url:'/trade-record/page/',
+	    url:'/trade-record/page',
+	    queryParams:{
+	    	sort:"tradeTime",
+	    	order:"desc"
+	    },
 	    fitColumns:true,
 	    method:'get',
 	    nowrap:false,
@@ -44,6 +48,8 @@ function initTradeRecordTable(){
 	function searchTradeRecord() {
 		$('#trade-record-table').datagrid('load', {
 			mobile : $("#trade-record-toolbar").find("input[name='mobile']").val(),
+			sort:"tradeTime",
+	    	order:"desc",
 			likes:"mobile"
 		});
 	}
