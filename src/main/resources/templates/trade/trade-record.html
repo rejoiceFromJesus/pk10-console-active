@@ -1,0 +1,54 @@
+<div id="trade-record-table"></div>
+<div id="trade-record-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-left: 20px;">
+		<input
+			class="easyui-validatebox" name="mobile" placeholder="手机号"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchTradeRecord()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+
+
+
+
+
+
+<script>
+$(function(){
+	initTradeRecordTable()
+})
+function initTradeRecordTable(){
+	$('#trade-record-table').datagrid({
+	    url:'/trade-record/page/',
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#trade-record-toolbar",
+	    striped:true,
+	    pagination:true,
+	    pageList:[10,30,50,100],
+	    
+	    columns:[[
+			{field:'period',title:'期数',width:"5%"},
+			{field:'mobile',title:'手机号',width:"12%"},
+			{field:'money',title:'金额',width:"12%"},
+			{field:'balance',title:'余额',width:"12%"},
+			{field:'typeLabel',title:'交易类型',width:"12%"},
+			{field:'betTime',title:'投注时间',width:"12%"},
+			{field:'tradeTime',title:'交易时间',width:"12%"},
+			{field:'createTime',title:'创建时间',width:"12%"},
+			{field:'updateTime',title:'更新时间',width:"12%"}
+			]]
+	})};
+	function searchTradeRecord() {
+		$('#trade-record-table').datagrid('load', {
+			mobile : $("#trade-record-toolbar").find("input[name='mobile']").val(),
+			likes:"mobile"
+		});
+	}
+	
+	
+
+	
+</script>

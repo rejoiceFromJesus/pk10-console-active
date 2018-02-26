@@ -1,0 +1,192 @@
+<div id="rule-side-table"></div>
+<div id="rule-side-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		<a href="#" onclick="addRuleNumber(this)" class="easyui-linkbutton"
+			iconCls="icon-add" plain="false">新增</a> <a href="#"
+			onclick="updateRuleNumber(this)" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="false">修改</a> <a href="#"
+			class="easyui-linkbutton" onclick="deleteRuleNumber(this)" iconCls="icon-remove" plain="false">删除</a>
+	</div>
+	<div style="margin-left: 20px;">
+		<input class="easyui-validatebox" name="rank" placeholder="排名"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <input
+			class="easyui-validatebox" name="number" placeholder="号码"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchRuleNumber()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+
+<div id="rule-side-dialog" class="easyui-dialog"
+	style="width: 500px; height: 400px; padding: 10px 20px" closed="true"
+	buttons="#rule-side-bts">
+	<form id="rule-side-form" class="fm" method="post">
+		<input type="hidden" name="id" />
+		<div class="fitem">
+			<label>排名:</label> <input  required="true" name="rank" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:0" />
+			<p style="    margin-left: 106px;
+    color: #1196e6;
+    font-weight: bold;">冠亚和为0</p>
+		</div>
+		<div class="fitem">
+			<label>结果:</label> <input required="true" name="number" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:0" />
+		</div>
+		<div class="fitem">
+			<label>赔率:</label> <input required="true" name="rate" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:2" />
+		</div>
+		<div class="fitem">
+			<label>描述:</label> <input  required="true" name="remark" class="easyui-textbox" />
+		</div>
+	</form>
+</div>
+
+
+<div id="rule-side-bts">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="saveRuleNumber()" style="width: 90px">确定</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#rule-side-dialog').dialog('close')"
+			style="width: 90px">取消</a>
+</div>
+
+
+
+<script>
+$(function(){
+	initRuleNumberTable()
+})
+function initRuleNumberTable(){
+	$('#rule-side-table').datagrid({
+	    url:'/rule-side/page/',
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#rule-side-toolbar",
+	    striped:true,
+	    pagination:true,
+	    pageList:[10,30,50,100],
+	    rowStyler:function(){
+	    	return "height:40px;"
+	    },
+	    columns:[[
+			{field:'id',title:'选择',checkbox:true,width:"5%"},
+			{field:'rankName',title:'排名',width:"12%"},
+			{field:'sideName',title:'结果',width:"12%"},
+			{field:'rate',title:'赔率',width:"15%"},
+			{field:'remark',title:'描述',width:"16%"},
+			{field:'createTime',title:'创建时间',width:"13%"},
+			{field:'updateTime',title:'更新时间',width:"13%"},
+			{field:'opt',title:'操作',width:"18%",formatter: function(value,row,index){
+				return '<a  href="#" class="button button-primary button-pill button-3d  button-tiny" onClick="updateRate('+row.id+',\''+row.rankName+'\',\''+row.sideName+'\')">修改赔率</a>'
+			}}
+			]]
+	})};
+var ruleSideMethod = "GET";
+	function searchRuleNumber() {
+		$('#rule-side-table').datagrid('load', {
+			rank : $("#rule-side-toolbar").find("input[name='rank']").val(),
+			number : $("#rule-side-toolbar").find("input[name='number']").val()
+		});
+	}
+	function addRuleNumber() {
+		$('#rule-side-dialog').dialog('open').dialog('setTitle', '新增排名');
+		$('#rule-side-form').form('clear');
+		ruleSideMethod="POST";
+	}
+	
+	function updateRate(id,rankName,sideName) {
+		$.messager.prompt('修改 排名【'+rankName+'】,结果 【'+sideName+'】 的赔率', '请输入赔率:', function(r,e){
+			if (r){
+				　if (!(/^\d+\.?\d{0,2}$/.test(r))) { 
+					updateRate(id,rankName,sideName);
+				　　　　　　alert('请输入2位小数的正数'); 
+				　　　　　　return false; 
+				　　　　}else { 
+					$.ajax({type:"put",contentType:"application/json;charset=utf-8", url:"/rule-side",data:JSON.stringify({"id":id,"rate":r})}).done(function(data){
+						$("#rule-side-table").datagrid("reload");
+	    				 $('#rule-side-table').datagrid('clearChecked')
+						alert(data.msg);
+					})
+				　　　　} 
+				
+			}else{
+				if(r != undefined){
+					updateRate(id,rankName,sideName);
+					alert("赔率不能为空");
+				}
+				
+			}
+		});
+	}
+	
+
+	
+	function updateRuleNumber() {
+		var rows = $('#rule-side-table').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行")
+		}else if(rows.length > 1){
+			alert("只能选择一行")
+		}else{
+			$('#rule-side-dialog').dialog('open').dialog('setTitle', '编辑排名');
+			$('#rule-side-form').form('load', rows[0]);
+		}
+		
+		ruleSideMethod = "PUT"
+	}
+	function deleteRuleNumber(){
+		var rows = $('#rule-side-table').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行");
+		}else{
+			confirm('温馨提示','您确定要删除吗?',null,function(r){
+				if (r){
+					$.ajax({
+						type : "DELETE",
+						url : "/rule-side/"+getSelectedIds(rows),
+						contentType:"application/json;charset=utf-8",
+						//data :  JSON.stringify(params),
+						success : function(msg) {
+							$("#rule-side-table").datagrid("reload");
+		    				 $('#rule-side-table').datagrid('clearChecked')
+							$.messager.alert({
+				    			title: "温馨提示",
+				    			msg: "删除成功",
+				    			fn: function(){
+				    				
+				    			}
+				    		});
+						}
+					});
+				}
+			});
+		}
+	}
+	function saveRuleNumber(){
+		if (!$('#rule-side-form').form('validate')) {
+			$.messager.alert('提示', '表单还未填写完成!');
+			return;
+		}
+		//提交到后台的RESTful
+		$.ajax({
+			type : ruleSideMethod,
+			url : "/rule-side",
+			contentType:"application/json;charset=utf-8",
+			data :   JSON.stringify($("#rule-side-form").serializeFormJSON()),
+			success : function(data) {
+				$('#rule-side-dialog').dialog('close');
+				$("#rule-side-table").datagrid("reload");
+				 $('#rule-side-table').datagrid('clearChecked')
+				$.messager.alert({
+	    			title: $('#rule-side-dialog').panel('options').title,
+	    			msg: data.msg,
+	    			fn: function(){
+	    				$("#rule-side-table").datagrid("reload");
+	    			}
+	    		});
+			}
+		});
+	}
+	
+</script>

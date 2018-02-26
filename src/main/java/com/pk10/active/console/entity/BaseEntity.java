@@ -14,6 +14,7 @@ import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -34,6 +35,9 @@ public class BaseEntity {
 	private Date createTime;
 	private Date updateTime;
 	private String remark;
+	@Transient
+	private String likes;
+	
 	public Date getCreateTime() {
 		return createTime;
 	}
@@ -51,6 +55,18 @@ public class BaseEntity {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getLikes() {
+		return likes;
+	}
+	public void setLikes(String likes) {
+		this.likes = likes;
 	}
 	
 }

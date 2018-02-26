@@ -18,6 +18,14 @@ public class RuleSide extends BaseEntity {
 	private BigDecimal rate;
 	private String sideName;
 	
+	public String getRankName() {
+		if("0".equals(String.valueOf(this.rank))) {
+			return "冠亚和";
+		}else {
+			return "第"+rank+"名";
+		}
+	}
+	
 	public String getSideName() {
 		return sideName;
 	}

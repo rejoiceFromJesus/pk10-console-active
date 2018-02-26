@@ -17,6 +17,20 @@ public class TradeRecord extends BaseEntity {
 	public static final Integer TYPE_BET = 2;
 	public static final Integer TYPE_SETTLE = 3;
 	private String betTime;
+	
+	public String getTypeLabel() {
+		switch(type) {
+		case 1: 
+			return "充值";
+		case 2: 
+			return "投注";
+		case 3: 
+			return "结算";
+			
+		}
+		
+		return "未知";
+	}
 	public String getMobile() {
 		return mobile;
 	}

@@ -1,0 +1,54 @@
+<div id="recharge-record-table"></div>
+<div id="recharge-record-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-left: 20px;">
+		<input
+			class="easyui-validatebox" name="mobile" placeholder="手机号"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchRechargeRecord()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+
+
+
+
+
+
+<script>
+$(function(){
+	initRechargeRecordTable()
+})
+function initRechargeRecordTable(){
+	$('#recharge-record-table').datagrid({
+	    url:'/recharge-record/page/',
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#recharge-record-toolbar",
+	    striped:true,
+	    pagination:true,
+	    pageList:[10,30,50,100],
+	    rowStyler:function(){
+	    	return "height:40px;"
+	    },
+	    columns:[[
+			{field:'id',title:'选择',checkbox:true,width:"5%"},
+			{field:'mobile',title:'手机号',width:"12%"},
+			{field:'money',title:'金额',width:"12%"},
+			{field:'tradeTime',title:'充值时间',width:"15%"},
+			{field:'remark',title:'描述',width:"16%"},
+			{field:'createTime',title:'创建时间',width:"13%"},
+			{field:'updateTime',title:'更新时间',width:"13%"}
+			]]
+	})};
+	function searchRechargeRecord() {
+		$('#recharge-record-table').datagrid('load', {
+			mobile : $("#recharge-record-toolbar").find("input[name='mobile']").val(),
+			likes:"mobile"
+		});
+	}
+	
+	
+
+	
+</script>
