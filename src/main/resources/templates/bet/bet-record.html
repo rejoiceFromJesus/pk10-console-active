@@ -1,0 +1,59 @@
+<div id="bet-record-table"></div>
+<div id="bet-record-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-left: 20px;">
+		<input
+			class="easyui-validatebox" name="mobile" placeholder="手机号"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchBetRecord()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+
+
+
+
+
+
+<script>
+$(function(){
+	initBetRecordTable()
+})
+function initBetRecordTable(){
+	$('#bet-record-table').datagrid({
+	    url:'/bet-record/page',
+	    queryParams:{
+	    	sort:"betTime",
+	    	order:"desc"
+	    },
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#bet-record-toolbar",
+	    striped:true,
+	    pagination:true,
+	    pageList:[10,30,50,100],
+	    
+	    columns:[[
+			{field:'period',title:'期数',width:"10%"},
+			{field:'mobile',title:'手机号',width:"12%"},
+			{field:'money',title:'金额',width:"13%"},
+			{field:'bonus',title:'奖金',width:"12%"},
+			{field:'balance',title:'余额',width:"12%"},
+			{field:'betTime',title:'投注时间',width:"15%"},
+			{field:'openTime',title:'开奖时间',width:"15%"},
+			{field:'statusLabel',title:'状态',width:"12%"}
+			]]
+	})};
+	function searchBetRecord() {
+		$('#bet-record-table').datagrid('load', {
+			mobile : $("#bet-record-toolbar").find("input[name='mobile']").val(),
+			sort:"betTime",
+	    	order:"desc",
+			likes:"mobile"
+		});
+	}
+	
+	
+
+	
+</script>
