@@ -161,7 +161,6 @@ public abstract class BaseService<T> {
 	@Transactional(readOnly = true)
 	public List<T> queryAll() {
 		Example example = new Example(this.clazz);
-		example.createCriteria().andCondition("flag=1");
 		return this.getMapper().selectByExample(example);
 		/*        return this.getMapper().select(null);
 		*/}

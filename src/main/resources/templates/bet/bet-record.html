@@ -1,4 +1,4 @@
-<div id="bet-record-table"></div>
+<div id="bet-record-table" style="height: 100%"></div>
 <div id="bet-record-toolbar" style="padding: 5px; height: auto">
 	<div style="margin-left: 20px;">
 		<input
@@ -11,7 +11,8 @@
 
 
 
-
+<script type="text/javascript"
+	th:src="@{/js/jquery-easyui-1.5.2/datagrid-detailview.js}"></script>
 
 
 <script>
@@ -25,22 +26,58 @@ function initBetRecordTable(){
 	    	sort:"betTime",
 	    	order:"desc"
 	    },
+	    view: detailview,
+	    detailFormatter:function(index,row){
+			return '<div style="padding:2px"><table class="ddv"></table></div>';
+		},
+		onExpandRow: function(index,row){
+			var ddv = $(this).datagrid('getRowDetail',index).find('table.ddv');
+			ddv.datagrid({
+				url:'/bet-info/list',
+				fitColumns:true,
+				method:"GET",
+				queryParams:{
+					period:row.period,
+					mobile:row.mobile
+				},
+				singleSelect:true,
+				rownumbers:true,
+				loadMsg:'',
+				height:'auto',
+				columns:[[
+					{field:'rank',title:'排名',width:100},
+					{field:'luckyNumber',title:'幸运码',width:100},
+					{field:'money',title:'金额',width:100},
+					{field:'rate',title:'赔率',width:100}
+				]],
+				onResize:function(){
+					$('#bet-record-table').datagrid('fixDetailRowHeight',index);
+				},
+				onLoadSuccess:function(){
+					setTimeout(function(){
+						$('#bet-record-table').datagrid('fixDetailRowHeight',index);
+					},0);
+				}
+			});
+			$('#bet-record-table').datagrid('fixDetailRowHeight',index);
+		},
 	    fitColumns:true,
 	    method:'get',
 	    nowrap:false,
 	    toolbar:"#bet-record-toolbar",
 	    striped:true,
+	    singleSelect:true,
 	    pagination:true,
 	    pageList:[10,30,50,100],
 	    
 	    columns:[[
 			{field:'period',title:'期数',width:"10%"},
 			{field:'mobile',title:'手机号',width:"12%"},
-			{field:'money',title:'金额',width:"13%"},
+			{field:'money',title:'金额',width:"12%"},
 			{field:'bonus',title:'奖金',width:"12%"},
 			{field:'balance',title:'余额',width:"12%"},
-			{field:'betTime',title:'投注时间',width:"15%"},
-			{field:'openTime',title:'开奖时间',width:"15%"},
+			{field:'betTime',title:'投注时间',width:"14%"},
+			{field:'openTime',title:'开奖时间',width:"14%"},
 			{field:'statusLabel',title:'状态',width:"12%"}
 			]]
 	})};

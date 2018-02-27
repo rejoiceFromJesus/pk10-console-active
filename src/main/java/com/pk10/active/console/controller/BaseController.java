@@ -70,6 +70,10 @@ public class BaseController<T,S> {
 	public ResponseEntity<List<T>> findAll(){
 		return ResponseEntity.ok(baseService.queryAll());
 	}
+	@GetMapping("list")
+	public ResponseEntity<List<T>> findList(T t){
+		return ResponseEntity.ok(baseService.queryListByWhere(t));
+	}
 	@GetMapping("page") 
 	public ResponseEntity<EasyUIResult> findByPage(@RequestParam(value = "page", defaultValue = "1") Integer page,
 			@RequestParam(value = "rows", defaultValue = "30") Integer rows,String[] sort,String[] order, T t) throws Exception{
