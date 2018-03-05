@@ -6,7 +6,7 @@
 <body class="easyui-layout" style="background-color: #F3F3F3!important">
 <title>首页-rejoice后台管理系统</title>
     <div th:include="public/header" th:remove="tag" />
-<div data-options="region:'north',title:''," style="border:none;height:80px;width:100%;background:#0081c2;color:white;">
+<div data-options="region:'north',title:''," style="border:none;height:80px;width:100%;color:white;" class="bg">
 	
 	<div style="left: 20px;
     width: 190px;
@@ -25,8 +25,8 @@
 </div>
 
 
- <div data-options="region:'west',title:'菜单',split:true" style="background:#a7c1e2; width:180px;">
-    	<ul id="menu"  class="easyui-tree" style="margin-top: 10px;margin-left: 5px;">
+ <div data-options="region:'west',title:'菜单',split:true" class="bg" style="background:#a7c1e2; width:180px;">
+    	<ul id="menu"   class="easyui-tree" style="margin-top: 10px;margin-left: 5px;">
          	<li>
          		<span>系统管理</span>
          		<ul>
@@ -38,7 +38,7 @@
          		<ul>
 	         		<li data-options="attributes:{'url':'rule/rule-side.html'}">两面反</li>
 	         		<li data-options="attributes:{'url':'rule/rule-number.html'}">排名</li>
-	         		<li data-options="attributes:{'url':'odds/global-setting.html'}">全局赔率</li>
+	         		<li data-options="attributes:{'url':'rule/global-rate.html'}">全局赔率</li>
 	         	</ul>
          	</li>
          	<li>
@@ -51,9 +51,9 @@
          	</li>
          </ul>
     </div>
-    <div  data-options="region:'center',title:''">
-    	<div id="tabs" class="easyui-tabs" style="height:100%;">
-		    <div title="首页" style="padding:20px;font-size:20px;color:blue;">
+    <div  data-options="region:'center',title:''" >
+    	<div id="tabs" class="easyui-tabs"  style="height:100%;widht:100%;">
+		    <div class="bg" title="首页" style="padding:20px;font-size:20px;color:white;">
 		        	welcome to rejoice manage system
 		    </div>
 		  

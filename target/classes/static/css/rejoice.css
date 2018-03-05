@@ -88,6 +88,9 @@ input{
     line-height: 20px;
     border-radius:4px;
 }
+.bg{
+	background-image: url("/image/bg.jpg") !important;
+}
 input:FOCUS{
 	border: 1px solid #95B8E7;
     box-shadow: 0 0 3px 0 #95B8E7;

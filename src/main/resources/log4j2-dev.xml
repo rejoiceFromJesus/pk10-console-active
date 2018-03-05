@@ -64,6 +64,7 @@
 
 	<loggers>
 		<logger name="mapper" level="DEBUG" />	
+		<logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />	
 		<root level="info">
 			<appender-ref ref="Console" />
 			<appender-ref ref="RollingFileInfo" />

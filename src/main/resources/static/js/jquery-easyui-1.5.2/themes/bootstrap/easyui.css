@@ -1897,14 +1897,17 @@
 .datagrid-htable,
 .datagrid-btable,
 .datagrid-ftable {
-   font-weight: bold;
   color: #333;
   border-collapse: separate;
 }
 .datagrid-htable {
+	   font-weight: bold;
 	height:40px;
 	 background: rgb(0, 161, 255);
     color: white;
+}
+.datagrid-htable span{
+	font-size:16px!important;
 }
 .datagrid-row-alt {
   background: #F5F5F5;
