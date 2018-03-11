@@ -14,15 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.entity.Example.Criteria;
-import tk.mybatis.mapper.util.StringUtil;
-
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.util.RejoiceUtil;
 import com.pk10.active.console.handler.InternalServerException;
+
+import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Example.Criteria;
+import tk.mybatis.mapper.util.StringUtil;
 
 @Transactional
 public abstract class BaseService<T> {
@@ -308,8 +308,8 @@ public abstract class BaseService<T> {
 	 * 
 	 * @param t
 	 */
-	public void saveSelective(T t){
-		this.getMapper().insertSelective(t);
+	public Integer saveSelective(T t){
+		return this.getMapper().insertSelective(t);
 	}
 
 	/**

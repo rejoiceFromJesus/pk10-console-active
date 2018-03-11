@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -49,8 +50,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Controller
 @CrossOrigin(methods = {RequestMethod.GET, RequestMethod.DELETE})
 @EnableScheduling
-@EnableAsync
 @EnableCaching
+@EnableAspectJAutoProxy
 @SpringBootApplication(scanBasePackages="com.pk10.active.console")
 @MapperScan(basePackages = "com.pk10.active.console.mapper")
 public class ActiveConsole {

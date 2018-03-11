@@ -16,6 +16,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.pk10.active.console.common.constant.Constant;
@@ -23,7 +24,7 @@ import com.pk10.active.console.entity.RuleNumber;
 import com.pk10.active.console.entity.RuleSide;
 
 
-@Service
+@Component
 public class CacheService{
 
 	@Autowired

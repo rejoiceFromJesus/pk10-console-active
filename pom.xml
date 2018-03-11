@@ -17,38 +17,49 @@
 	</properties>
 
 	<dependencies>
-	
-	<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
-<dependency>
-    <groupId>commons-beanutils</groupId>
-    <artifactId>commons-beanutils</artifactId>
-</dependency>
-	<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
-<dependency>
-    <groupId>joda-time</groupId>
-    <artifactId>joda-time</artifactId>
-</dependency>
+	 <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjrt</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.aspectj</groupId>
+        <artifactId>aspectjweaver</artifactId>
+    </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
 
-	<dependency>
-    <groupId>io.springfox</groupId>
-    <artifactId>springfox-swagger-ui</artifactId>
-    <version>2.7.0</version>
-</dependency>
-	<dependency>
-    <groupId>io.springfox</groupId>
-    <artifactId>springfox-swagger2</artifactId>
-    <version>2.7.0</version>
-</dependency>
-	<dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
-	<dependency>
+		<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>javase</artifactId>
 			<version>3.2.0</version>
 		</dependency>
-	<!-- web -->
+		<!-- web -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -87,88 +98,77 @@
 			<artifactId>itext-asian</artifactId>
 			<version>5.2.0</version>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 		</dependency>
-	
-	
+
+
 		<!-- druid -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 			<version>1.0.29</version>
 		</dependency>
-	
-	<!-- https://mvnrepository.com/artifact/org.webjars.bower/github-com-novaeye-jquery-easyui-bower -->
-	<!-- 	<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>github-com-novaeye-jquery-easyui-bower</artifactId>
-			<version>1.5.0.1</version>
-		</dependency> -->
-	
 
-<!-- https://mvnrepository.com/artifact/org.webjars.bower/bootstrap-treeview -->
-	<!-- 	<dependency>
-			<groupId>org.webjars.bower</groupId>
-			<artifactId>bootstrap-treeview</artifactId>
-			<version>1.2.0</version>
-		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/github-com-novaeye-jquery-easyui-bower -->
+		<!-- <dependency> <groupId>org.webjars.bower</groupId> <artifactId>github-com-novaeye-jquery-easyui-bower</artifactId> 
+			<version>1.5.0.1</version> </dependency> -->
 
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>2.1.4</version>
-		</dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/bootstrap-treeview -->
+		<!-- <dependency> <groupId>org.webjars.bower</groupId> <artifactId>bootstrap-treeview</artifactId> 
+			<version>1.2.0</version> </dependency> <dependency> <groupId>org.webjars</groupId> 
+			<artifactId>jquery</artifactId> <version>2.1.4</version> </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-	 <!-- Optional, for bootstrap -->
+		<!-- Optional, for bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7</version>
 		</dependency>
-	 <!-- Optional, for bootstrap -->
+		<!-- Optional, for bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>3.3.7</version>
 		</dependency>
-	 <!-- hot swapping, disable cache for template, enable live reload -->
+		<!-- hot swapping, disable cache for template, enable live reload -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-	<!-- MySql -->
+		<!-- MySql -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-	<!--mybatis-->
+		<!--mybatis -->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		<!--mapper-->
+		<!--mapper -->
 		<dependency>
 			<groupId>tk.mybatis</groupId>
 			<artifactId>mapper-spring-boot-starter</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-		<!--pagehelper-->
+		<!--pagehelper -->
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -184,7 +184,7 @@
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 		</dependency>
-	
+
 		<!-- 监控 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -200,7 +200,7 @@
 					<artifactId>spring-boot-starter-logging</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency> 
+		</dependency>
 
 		<!-- log4j2 -->
 		<dependency>
@@ -228,13 +228,7 @@
 			</plugin>
 
 		</plugins>
-		<!-- <resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<excludes>
-					<exclude>*.properties</exclude>
-				</excludes>
-			</resource>
-		</resources> -->
+		<!-- <resources> <resource> <directory>src/main/resources</directory> <excludes> 
+			<exclude>*.properties</exclude> </excludes> </resource> </resources> -->
 	</build>
 </project>
