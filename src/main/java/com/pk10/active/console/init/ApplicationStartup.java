@@ -23,7 +23,8 @@ implements ApplicationListener<ContextRefreshedEvent> {
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		System.err.println("init cache.....");
-		cacheService.refreshRuleSide();
+		cacheService.refreshRuleSideList();
+		cacheService.refreshRuleNumberList();
 	}
 
  

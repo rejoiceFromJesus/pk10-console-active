@@ -25,11 +25,11 @@ public class RateController {
 	
 	@GetMapping("/rule-side")
 	public Map<String,List<RuleSide>> ruleSideList(){
-		return cacheService.ruleSide();
+		return cacheService.getRuleSideList();
 	}
 	
-	@GetMapping("/refresh-rule-side")
-	public Map<String,List<RuleSide>> refreshRuleSideList(){
-		 return cacheService.refreshRuleSide();
+	@GetMapping("/rule-number")
+	public Map<String,List<RuleSide>> ruleNumberList(){
+		return cacheService.getRuleNumberList();
 	}
 }
