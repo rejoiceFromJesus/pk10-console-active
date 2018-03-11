@@ -172,7 +172,7 @@ public abstract class BaseService<T> {
 	 */
 	@Transactional(readOnly = true)
 	public List<T> queryListByWhereAndOrder(T t, String[] sorts, String[] orders)
-			throws Exception {
+		{
 		// 声明一个example
 		Example example = new Example(this.clazz);
 		if (RejoiceUtil.isNotBlank(sorts) && RejoiceUtil.isNotBlank(orders)) {
