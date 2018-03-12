@@ -1,5 +1,7 @@
 package com.pk10.active.console.common.util;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -12,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -351,7 +354,11 @@ public class RejoiceUtil {
 			return ((BigDecimal) obj).toPlainString();
 		}
 		if(obj instanceof Number){
-			String.valueOf(obj);
+			return String.valueOf(obj);
+		}
+		
+		if(obj instanceof List) {
+			return (String) ((List) obj).stream().map( n -> n.toString() ).collect(Collectors.joining(","));
 		}
 		return obj.toString();
 	}

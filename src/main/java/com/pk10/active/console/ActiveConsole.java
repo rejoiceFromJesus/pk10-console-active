@@ -48,7 +48,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  *
  */
 @Controller
-@CrossOrigin(methods = {RequestMethod.GET, RequestMethod.DELETE})
 @EnableScheduling
 @EnableCaching
 @EnableAspectJAutoProxy
