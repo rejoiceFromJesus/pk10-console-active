@@ -1,9 +1,12 @@
 package com.pk10.active.console.task;
 
-import static org.mockito.Matchers.anyMap;
+import java.util.Arrays;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -19,13 +22,15 @@ public class DailyLotteryTask {
 	
 	@Autowired
 	LotteryHistoryService lotteryHistoryService;
-	public final static RestTemplate restTemplate = new RestTemplate();
+	@Autowired
+	public RestTemplate restTemplate;
 
 	@Scheduled(cron="0/10 * 0-23 * * ?")
 	public void execute() {
-		String result = restTemplate.getForObject("https://www.cp111678.com/data/bjpk10/lotteryList/2018-03-12.json?"+DateTime.now().getMillis(), String.class);
+		String url = "https://www.cp111678.com/data/bjpk10/lotteryList/2018-03-13.json?a="+DateTime.now().getMillis();
+		String result = restTemplate.getForObject(url, String.class);
 		IssueLotteryVo[] issueLotteryVos = JsonUtil.toBean(result, IssueLotteryVo[].class);
-		for(int i = 0; i < issueLotteryVos.length; i++) {
+		for(int i = issueLotteryVos.length-1; i >= 0; i--) {
 			LotteryHistory lotteryHistory = new LotteryHistory();
 			IssueLotteryVo issueLotteryVo = issueLotteryVos[i];
 			String openNum = RejoiceUtil.toString(RejoiceUtil.toString(issueLotteryVo.getOpenNum()));
