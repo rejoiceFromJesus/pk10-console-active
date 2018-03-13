@@ -98,7 +98,7 @@ function initUserTable(){
 	    pagination:true,
 	    pageList:[10,30,50,100],
 	    rowStyler:function(){
-	    	return "height:40px;"
+	    	return "height:30px;"
 	    },
 	    columns:[[
 			{field:'id',title:'选择',checkbox:true,width:"5%"},
@@ -110,8 +110,8 @@ function initUserTable(){
 			{field:'createTime',title:'创建时间',width:"10%"},
 			{field:'updateTime',title:'更新时间',width:"10%"},
 			{field:'opt',title:'操作',width:"18%",formatter: function(value,row,index){
-				return '<a  href="#" class="button button-primary button-pill button-3d  button-tiny" onClick="changePwd('+row.id+',\''+row.mobile+'\')">修改密码</a>'+
-				' <a  href="#" class="button button-primary button-pill button-3d  button-tiny button-action" onClick="recharge('+row.id+',\''+row.mobile+'\')">充值</a>';
+				return '<a  href="#" class="button button-primary button-pill  button-tiny" onClick="changePwd('+row.id+',\''+row.mobile+'\')">修改密码</a>'+
+				' <a  href="#" class="button button-primary button-pill   button-tiny button-action" onClick="recharge('+row.id+',\''+row.mobile+'\')">充值</a>';
 			}}
 			]]
 	})};

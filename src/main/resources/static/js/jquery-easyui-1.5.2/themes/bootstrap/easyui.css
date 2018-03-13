@@ -1914,12 +1914,12 @@
 }
 .datagrid-row-over,
 .datagrid-header td.datagrid-header-over {
-  background: #0d83fd;
+  background: #75b9e0;
   color: white;
   cursor: default;
 }
 .datagrid-row-selected {
-  background: #0081c2;
+  background: #75b9e0;
   color: #fff;
 }
 .datagrid-row-editing .textbox,

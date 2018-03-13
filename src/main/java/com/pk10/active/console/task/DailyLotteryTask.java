@@ -25,7 +25,7 @@ public class DailyLotteryTask {
 	@Autowired
 	public RestTemplate restTemplate;
 
-	@Scheduled(cron="0/10 * 0-23 * * ?")
+	//@Scheduled(cron="0/10 * 0-23 * * ?")
 	public void execute() {
 		String url = "https://www.cp111678.com/data/bjpk10/lotteryList/2018-03-13.json?a="+DateTime.now().getMillis();
 		String result = restTemplate.getForObject(url, String.class);
