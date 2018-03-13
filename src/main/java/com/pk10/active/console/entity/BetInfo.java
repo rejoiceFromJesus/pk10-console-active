@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Table;
 
+import com.pk10.active.console.common.constant.SideNameEnum;
+
 @Table(name="bet_info")
 public class BetInfo extends BaseEntity {
 
@@ -15,7 +17,6 @@ public class BetInfo extends BaseEntity {
 	private BigDecimal money;
 	private Integer type;
 	private BigDecimal rate;
-	private String sideName;
 	public Integer getRank() {
 		return rank;
 	}
@@ -64,11 +65,11 @@ public class BetInfo extends BaseEntity {
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-	public String getSideName() {
-		return sideName;
-	}
-	public void setSideName(String sideName) {
-		this.sideName = sideName;
+	public String getResult() {
+		if(this.type==1) {
+			return SideNameEnum.label(this.luckyNumber);
+		}
+		return this.luckyNumber.toString();
 	}
 	
 	

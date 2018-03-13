@@ -23,7 +23,7 @@ public class RuleNumberController extends BaseController<RuleNumber, RuleNumberS
 	
 
 	@GetMapping("/client/list-by-rank")
-	@ApiOperation(value="排名赔率列表", notes="返回冠亚和的值+1~10名的车道")
+	@ApiOperation(value="排名赔率列表", notes="返回冠亚和的值+1~10名的车道号码，页面上")
 	public Result<Map<Integer,List<RuleNumber>>> listByRank(){
 		Map<Integer,List<RuleNumber>> data = new HashMap<>();
 		RuleNumber ruleNumberCons = new RuleNumber();

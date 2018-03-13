@@ -16,6 +16,13 @@ public class RuleNumber extends BaseEntity {
 	private Integer rank;
 	private Integer number;
 	private BigDecimal rate;
+	public String getRankName() {
+		if("0".equals(String.valueOf(this.rank))) {
+			return "冠亚和";
+		}else {
+			return "第"+rank+"名";
+		}
+	}
 	public Integer getId() {
 		return id;
 	}

@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.pk10.active.console.common.constant.SideNameEnum;
+
 @Table(name="rule_side")
 public class RuleSide extends BaseEntity {
 
@@ -14,9 +16,8 @@ public class RuleSide extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer rank;
-	private Boolean side;
+	private Integer side;
 	private BigDecimal rate;
-	private String sideName;
 	
 	public String getRankName() {
 		if("0".equals(String.valueOf(this.rank))) {
@@ -27,10 +28,7 @@ public class RuleSide extends BaseEntity {
 	}
 	
 	public String getSideName() {
-		return sideName;
-	}
-	public void setSideName(String sideName) {
-		this.sideName = sideName;
+		return SideNameEnum.label(this.side);
 	}
 	public Integer getId() {
 		return id;
@@ -44,17 +42,20 @@ public class RuleSide extends BaseEntity {
 	public void setRank(Integer rank) {
 		this.rank = rank;
 	}
-	public Boolean getSide() {
-		return side;
-	}
-	public void setSide(Boolean side) {
-		this.side = side;
-	}
+
 	public BigDecimal getRate() {
 		return rate;
 	}
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
+	}
+
+	public Integer getSide() {
+		return side;
+	}
+
+	public void setSide(Integer side) {
+		this.side = side;
 	}
 	
 }

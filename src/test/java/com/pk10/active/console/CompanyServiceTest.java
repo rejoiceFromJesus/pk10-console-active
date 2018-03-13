@@ -38,8 +38,8 @@ public class CompanyServiceTest {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(CompanyServiceTest.class);
 
-	@Autowired
 	CompanyService companyService;
+	@Autowired
 	
 	
 	@Test
