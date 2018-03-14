@@ -10,7 +10,7 @@ public enum SideNameEnum{
 	BIG("大",3),
 	SMALL("小",4),
 	DRAGON("龙",5),
-	TIGER("龙",6);
+	TIGER("虎",6);
 	
 	private static Map<String, SideNameEnum> LOOK_UP = new HashMap<>();
 	

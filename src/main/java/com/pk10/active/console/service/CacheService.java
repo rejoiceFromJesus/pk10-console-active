@@ -1,5 +1,6 @@
 package com.pk10.active.console.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -34,39 +35,47 @@ public class CacheService{
 	RuleNumberService ruleNumberService;
 	
 	@Cacheable("rule-side")
-	public Map<String,List<RuleSide>> getRuleSideList(){
+	public List<Map<String,Object>> getRuleSideList(){
 	
 		return null;
 	}
 	
 	@CachePut("rule-side")
-	public Map<String,List<RuleSide>> refreshRuleSideList() {
-		Map<String,List<RuleSide>> result = new LinkedHashMap<String, List<RuleSide>>();
+	public List<Map<String, Object>> refreshRuleSideList() {
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		RuleSide cons = new RuleSide();
+		Map<String,Object> singleRank = null;
 		for(int i = 0; i <= 10; i++) {
 			cons.setRank(i);
 			List<RuleSide> list = ruleSideService.queryListByWhereAndOrder(cons, new String[]{"rank"}, new String[]{"asc"});
-			result.put(Constant.RULE_TITLES[i], list);
+			singleRank =  new HashMap<String, Object>();
+			singleRank.put("rankName", Constant.RULE_TITLES[i]);
+			singleRank.put("data", list);
+			result.add(singleRank);
 		}
 		
 		return result;
 	}
 	
 	@CachePut("rule-number")
-	public Map<String,List<RuleNumber>> refreshRuleNumberList() {
-		Map<String,List<RuleNumber>> result = new LinkedHashMap<String, List<RuleNumber>>();
+	public List<Map<String,Object>> refreshRuleNumberList() {
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		RuleNumber cons = new RuleNumber();
+		Map<String,Object> singleRank = null;
 		for(int i = 0; i <= 10; i++) {
 			cons.setRank(i);
 			List<RuleNumber> list = ruleNumberService.queryListByWhereAndOrder(cons, new String[]{"rank"}, new String[]{"asc"});
-			result.put(Constant.RULE_TITLES[i], list);
+			singleRank =  new HashMap<String, Object>();
+			singleRank.put("rankName", Constant.RULE_TITLES[i]);
+			singleRank.put("data", list);
+			result.add(singleRank);
 		}
 		
 		return result;
 	}
 
 	@Cacheable("rule-number")
-	public Map<String, List<RuleSide>> getRuleNumberList() {
+	public List<Map<String,Object>> getRuleNumberList() {
 		return null;
 	}
 

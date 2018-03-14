@@ -1,5 +1,8 @@
 package com.pk10.active.console.controller.client;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +18,7 @@ import com.pk10.active.console.entity.RuleSide;
 import com.pk10.active.console.service.CacheService;
 import com.pk10.active.console.service.RuleSideService;
 
+@Api(tags="赔率模块")
 @RestController
 @RequestMapping("/client/rate")
 public class RateController {
@@ -22,14 +26,15 @@ public class RateController {
 	
 	@Autowired
 	CacheService cacheService;
-	
+	@ApiOperation(value="两面反赔率列表", notes="返回冠亚和+第1~10名的单、双、大、小、龙、虎（sideName，页面展示），分别对应1,2,3,4,5,6（side，传给后端）")
 	@GetMapping("/rule-side")
-	public Map<String,List<RuleSide>> ruleSideList(){
+	public List<Map<String,Object>> ruleSideList(){
 		return cacheService.getRuleSideList();
 	}
 	
 	@GetMapping("/rule-number")
-	public Map<String,List<RuleSide>> ruleNumberList(){
+	@ApiOperation(value="两面反赔率列表", notes="返回冠亚和+第1~10名的结果或车道号码")
+	public List<Map<String,Object>> ruleNumberList(){
 		return cacheService.getRuleNumberList();
 	}
 }
