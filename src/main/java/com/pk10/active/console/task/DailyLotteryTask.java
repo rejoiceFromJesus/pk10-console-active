@@ -24,8 +24,8 @@ public class DailyLotteryTask {
 	@Autowired
 	public RestTemplate restTemplate;
 
-	@Scheduled(cron="0/10 * * * * ?")
-	//@Scheduled(cron="0 0 1 * * ?")
+	//@Scheduled(cron="0/10 * * * * ?")
+	@Scheduled(cron="0 0 1 * * ?")
 	public void execute() {
 		String lastDay = DateTime.now().minusDays(1).toString(Constant.DATE_FORMAT_PATTERN1);
 		String url = "https://www.cp111678.com/data/bjpk10/lotteryList/"+lastDay+".json?"+DateTime.now().getMillis();
