@@ -2,6 +2,7 @@ package com.pk10.active.console.controller.client;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class RateController {
 	}
 	
 	@GetMapping("/rule-number")
-	@ApiOperation(value="两面反赔率列表", notes="返回冠亚和+第1~10名的结果或车道号码")
+	@ApiOperation(value="排名赔率列表", notes="返回冠亚和+第1~10名的结果或车道号码（number）")
 	public List<Map<String,Object>> ruleNumberList(){
 		return cacheService.getRuleNumberList();
 	}

@@ -57,6 +57,8 @@ public class CacheService{
 		return result;
 	}
 	
+	
+	
 	@CachePut("rule-number")
 	public List<Map<String,Object>> refreshRuleNumberList() {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();

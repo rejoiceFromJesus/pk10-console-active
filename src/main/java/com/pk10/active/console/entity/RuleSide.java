@@ -1,5 +1,6 @@
 package com.pk10.active.console.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.GeneratedValue;
@@ -10,8 +11,15 @@ import javax.persistence.Table;
 import com.pk10.active.console.common.constant.SideNameEnum;
 
 @Table(name="rule_side")
-public class RuleSide extends BaseEntity {
+public class RuleSide extends BaseEntity implements Serializable{
 
+	/**
+	 * serialVersionUID:TODO（用一句话描述这个变量表示什么）
+	 *
+	 * @since 1.0.0
+	 */
+	
+	private static final long serialVersionUID = 6762588769543180201L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

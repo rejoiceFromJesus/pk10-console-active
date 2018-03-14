@@ -1,5 +1,6 @@
 package com.pk10.active.console.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.GeneratedValue;
@@ -8,8 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Table(name="rule_number")
-public class RuleNumber extends BaseEntity {
+public class RuleNumber extends BaseEntity implements Serializable{
 
+	/**
+	 * serialVersionUID:TODO（用一句话描述这个变量表示什么）
+	 *
+	 * @since 1.0.0
+	 */
+	
+	private static final long serialVersionUID = -4470723968627907901L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
