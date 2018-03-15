@@ -38,4 +38,5 @@ public class RateController {
 	public List<Map<String,Object>> ruleNumberList(){
 		return cacheService.getRuleNumberList();
 	}
+	
 }
