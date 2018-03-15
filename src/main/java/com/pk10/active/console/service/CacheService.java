@@ -19,10 +19,14 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.pk10.active.console.common.constant.Constant;
+import com.pk10.active.console.common.constant.SideNameEnum;
+import com.pk10.active.console.common.util.JsonUtil;
 import com.pk10.active.console.entity.RuleNumber;
 import com.pk10.active.console.entity.RuleSide;
+import com.pk10.active.console.vo.CurrentPeriodLottery;
 
 
 @Component
@@ -33,6 +37,9 @@ public class CacheService{
 	
 	@Autowired
 	RuleNumberService ruleNumberService;
+	
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@Cacheable("rule-side")
 	public List<Map<String,Object>> getRuleSideList(){
@@ -57,6 +64,31 @@ public class CacheService{
 		return result;
 	}
 	
+	@Cacheable("current-period-lottery")
+	public CurrentPeriodLottery getCurrentPeriodLottery(){
+	
+		return null;
+	}
+	
+	@CachePut("current-period-lottery")
+	public CurrentPeriodLottery refreshCurrentPeriodLottery() {
+		String url = "https://www.cp111678.com/getLotteryBase.do?gameCode=bjpk10";
+		String result = restTemplate.getForObject(url, String.class);
+		CurrentPeriodLottery lottery = JsonUtil.toBean(result, CurrentPeriodLottery.class);
+		List<Integer> openNum = lottery.getOpenNum();
+		List<String> dragonTiger = new ArrayList<String>();
+		for(int i = 0; i < 5; i++){
+			dragonTiger.add(SideNameEnum.label(openNum.get(i) > openNum.get(9-i) ? 5:6));
+		}
+		lottery.setDragonTiger(dragonTiger);
+		List<Object> oneTwoSum = new ArrayList<Object>();
+		Integer ownTowSumInt = openNum.get(0)+openNum.get(1);
+		oneTwoSum.add(openNum.get(0)+openNum.get(1));
+		oneTwoSum.add(ownTowSumInt % 2 == 0 ? SideNameEnum.EVEN.label() : SideNameEnum.ODD.label());
+		oneTwoSum.add(ownTowSumInt > 11 ? SideNameEnum.BIG.label() : SideNameEnum.SMALL.label());
+		lottery.setOneTwoSum(oneTwoSum);
+		return lottery;
+	}
 	
 	
 	@CachePut("rule-number")
