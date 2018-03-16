@@ -22,7 +22,7 @@ public class RuleNumber extends BaseEntity implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer rank;
-	private Integer number;
+	private Integer result;
 	private BigDecimal rate;
 	public String getRankName() {
 		if("0".equals(String.valueOf(this.rank))) {
@@ -43,11 +43,12 @@ public class RuleNumber extends BaseEntity implements Serializable{
 	public void setRank(Integer rank) {
 		this.rank = rank;
 	}
-	public Integer getNumber() {
-		return number;
+	
+	public Integer getResult() {
+		return result;
 	}
-	public void setNumber(Integer number) {
-		this.number = number;
+	public void setResult(Integer result) {
+		this.result = result;
 	}
 	public BigDecimal getRate() {
 		return rate;

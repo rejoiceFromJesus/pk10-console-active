@@ -24,7 +24,7 @@
 			<label>排名:</label> <input required="true" name="rank" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:0" />
 		</div>
 		<div class="fitem">
-			<label>号码:</label> <input required="true" name="number" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:0" />
+			<label>结果:</label> <input required="true" name="result" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:0" />
 		</div>
 		<div class="fitem">
 			<label>赔率:</label> <input required="true" name="rate" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:2" />
@@ -67,13 +67,13 @@ function initRuleNumberTable(){
 	    columns:[[
 			{field:'id',title:'选择',checkbox:true,width:"5%"},
 			{field:'rankName',title:'排名',width:"12%"},
-			{field:'number',title:'结果',width:"12%"},
+			{field:'result',title:'结果',width:"12%"},
 			{field:'rate',title:'赔率',width:"15%"},
 			{field:'remark',title:'描述',width:"16%"},
 			{field:'createTime',title:'创建时间',width:"13%"},
 			{field:'updateTime',title:'更新时间',width:"13%"},
 			{field:'opt',title:'操作',width:"18%",formatter: function(value,row,index){
-				return '<a  href="#" class="button button-primary button-pill   button-tiny" onClick="updateRate('+row.id+',\''+row.rankName+'\','+row.number+')">修改赔率</a>'
+				return '<a  href="#" class="button button-primary button-pill   button-tiny" onClick="updateRate('+row.id+',\''+row.rankName+'\','+row.result+')">修改赔率</a>'
 			}}
 			]]
 	})};
@@ -90,11 +90,11 @@ var ruleNumberMethod = "GET";
 		ruleNumberMethod="POST";
 	}
 	
-	function updateRate(id,rank,number) {
-		$.messager.prompt('修改 排名【'+rank+'】,结果 【'+number+'】 的赔率', '请输入赔率:', function(r,e){
+	function updateRate(id,rank,result) {
+		$.messager.prompt('修改 排名【'+rank+'】,结果 【'+result+'】 的赔率', '请输入赔率:', function(r,e){
 			if (r){
 				　if (!(/^\d+\.?\d{0,2}$/.test(r))) { 
-					updateRate(id,rank,number);
+					updateRate(id,rank,result);
 				　　　　　　alert('请输入2位小数的正数'); 
 				　　　　　　return false; 
 				　　　　}else { 

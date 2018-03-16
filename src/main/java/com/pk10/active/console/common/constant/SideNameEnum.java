@@ -1,5 +1,6 @@
 package com.pk10.active.console.common.constant;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public enum SideNameEnum{
 	public String label() {
 		return this.label;
 	}
-	public Integer value() {
+	public Serializable value() {
 		return this.value;
 	}
 	private String label; 
@@ -44,4 +45,11 @@ public enum SideNameEnum{
 		SideNameEnum sideNameEnum = get(value);
 		return sideNameEnum == null ? null : sideNameEnum.label;
 	}
+	public String getLabel() {
+		return label;
+	}
+	public Integer getValue() {
+		return value;
+	}
+	
 }

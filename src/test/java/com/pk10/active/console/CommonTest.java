@@ -16,9 +16,7 @@ import org.apache.commons.lang3.EnumUtils;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.pk10.active.console.common.constant.EnumUtil;
 import com.pk10.active.console.common.constant.SideNameEnum;
-import com.pk10.active.console.common.util.JsonUtil;
 import com.pk10.active.console.common.util.RejoiceUtil;
 /**
  *
@@ -31,6 +29,11 @@ import com.pk10.active.console.common.util.RejoiceUtil;
  *
  */
 public class CommonTest {
+	
+	@Test
+	public void classNameTest(){
+		System.err.println(RejoiceUtil.className("side-name", "-"));
+	}
 	
 	@Test
 	public void enumUtilTest() throws JsonProcessingException {

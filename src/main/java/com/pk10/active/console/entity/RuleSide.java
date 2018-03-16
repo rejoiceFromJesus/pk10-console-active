@@ -24,7 +24,8 @@ public class RuleSide extends BaseEntity implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Integer rank;
-	private Integer side;
+	private Integer result;
+	
 	private BigDecimal rate;
 	
 	public String getRankName() {
@@ -34,9 +35,8 @@ public class RuleSide extends BaseEntity implements Serializable{
 			return "第"+rank+"名";
 		}
 	}
-	
 	public String getSideName() {
-		return SideNameEnum.label(this.side);
+		return SideNameEnum.label(this.result);
 	}
 	public Integer getId() {
 		return id;
@@ -57,13 +57,12 @@ public class RuleSide extends BaseEntity implements Serializable{
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-
-	public Integer getSide() {
-		return side;
+	public Integer getResult() {
+		return result;
+	}
+	public void setResult(Integer result) {
+		this.result = result;
 	}
 
-	public void setSide(Integer side) {
-		this.side = side;
-	}
 	
 }

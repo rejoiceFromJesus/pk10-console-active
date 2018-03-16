@@ -196,6 +196,31 @@ public class RejoiceUtil {
 	    }
 	    return result.toString();
 	}
+	
+	public static String className(String name,String symbol) {
+	    StringBuilder result = new StringBuilder();
+	    // 快速检查
+	    if (name == null || name.isEmpty()) {
+	        // 没必要转换
+	        return "";
+	    } else if (!name.contains(symbol)) {
+    		// 不含symbol，首字母大写
+    	 	result.append(name.substring(0, 1).toUpperCase());
+            result.append(name.substring(1));
+	        return result.toString();
+	    }
+	    // 用下划线将原始字符串分割
+	    String camels[] = name.split(symbol);
+	    for (String camel :  camels) {
+	        // 跳过原始字符串中开头、结尾的symbol
+	        if (camel.isEmpty()) {
+	            continue;
+	        }
+	            result.append(camel.substring(0, 1).toUpperCase());
+	            result.append(camel.substring(1));
+	    }
+	    return result.toString();
+	}
 	/**
 	 * 获取指定格式的日期的字符串
 	 * @param date

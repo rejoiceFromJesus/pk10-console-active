@@ -10,7 +10,7 @@ import com.pk10.active.console.common.constant.SideNameEnum;
 public class BetInfo extends BaseEntity {
 
 	private Integer rank;
-	private Integer luckyNumber;
+	private Integer result;
 	private String mobile;
 	private Integer period;
 	private String betTime;
@@ -20,14 +20,17 @@ public class BetInfo extends BaseEntity {
 	public Integer getRank() {
 		return rank;
 	}
+	
+	public Integer getResult() {
+		return result;
+	}
+
+	public void setResult(Integer result) {
+		this.result = result;
+	}
+
 	public void setRank(Integer rank) {
 		this.rank = rank;
-	}
-	public Integer getLuckyNumber() {
-		return luckyNumber;
-	}
-	public void setLuckyNumber(Integer luckyNumber) {
-		this.luckyNumber = luckyNumber;
 	}
 	public String getMobile() {
 		return mobile;
@@ -65,11 +68,11 @@ public class BetInfo extends BaseEntity {
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-	public String getResult() {
+	public String getResultLabel() {
 		if(this.type==1) {
-			return SideNameEnum.label(this.luckyNumber);
+			return SideNameEnum.label(this.result);
 		}
-		return this.luckyNumber.toString();
+		return this.result.toString();
 	}
 	
 	

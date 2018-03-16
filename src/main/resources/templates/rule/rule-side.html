@@ -27,7 +27,12 @@
     font-weight: bold;">冠亚和为0</p>
 		</div>
 		<div class="fitem">
-			<label>结果:</label> <input required="true" name="number" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:0" />
+			<label>结果:</label> <input required="true" name="result"   value="100" class="easyui-combobox"  data-options="
+				url:'/enum/side-name-enum',
+				method:'get',
+				valueField:'value',
+				textField:'label',
+				panelHeight:'auto'"/>
 		</div>
 		<div class="fitem">
 			<label>赔率:</label> <input required="true" name="rate" type="text" class="easyui-numberbox" value="100" data-options="min:0,precision:2" />
@@ -52,7 +57,7 @@
 
 <script>
 $(function(){
-	initRuleNumberTable()
+	initRuleNumberTable();
 })
 function initRuleNumberTable(){
 	$('#rule-side-table').datagrid({
