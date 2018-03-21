@@ -35,7 +35,7 @@ public class RuleSide extends BaseEntity implements Serializable{
 			return "第"+rank+"名";
 		}
 	}
-	public String getSideName() {
+	public String getResultName() {
 		return SideNameEnum.label(this.result);
 	}
 	public Integer getId() {

@@ -43,7 +43,7 @@ public class DailyLotteryTask {
 				for(int i = issueLotteryVos.length-1; i >= 0; i--) {
 					LotteryHistory lotteryHistory = new LotteryHistory();
 					IssueLotteryVo issueLotteryVo = issueLotteryVos[i];
-					String openNum = RejoiceUtil.toString(RejoiceUtil.toString(issueLotteryVo.getOpenNum()));
+					String openNum = RejoiceUtil.toString(issueLotteryVo.getOpenNum());
 					lotteryHistory.setOpenNum(openNum);
 					lotteryHistory.setPeriod(issueLotteryVo.getIssue());
 					lotteryHistory.setOpenDateTime(issueLotteryVo.getOpenDateTime());

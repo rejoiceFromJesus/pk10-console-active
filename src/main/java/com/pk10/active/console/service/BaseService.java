@@ -2,11 +2,13 @@ package com.pk10.active.console.service;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,9 @@ public abstract class BaseService<T> {
 	
 	
 	public static Logger LOGGER = LoggerFactory.getLogger(BaseService.class);
+	
+	
+	
 
 	/**
 	 * 
@@ -106,6 +111,31 @@ public abstract class BaseService<T> {
 		Type type = this.getClass().getGenericSuperclass();
 		ParameterizedType ptype = (ParameterizedType) type;
 		this.clazz = (Class<T>) ptype.getActualTypeArguments()[0];
+	}
+	
+	
+	
+	/**
+	 * 
+	 * saveOrUpdateSelective(这里用一句话描述这个方法的作用)
+	 * (这里描述这个方法适用条件 – 可选)
+	 * @param entity
+	 * @param cons
+	 * void
+	 */
+	protected void saveOrUpdateSelective(T entity, T cons){
+		T exists = this.queryOne(cons);
+		if(exists != null){
+			try {
+				PropertyUtils.setProperty(entity, "id", PropertyUtils.getProperty(exists, "id"));
+			} catch (Exception e) {
+				LOGGER.error("get or set id property failed,",e );
+				throw new InternalServerException("get or set id property failed", e);
+			}
+			this.updateByIdSelective(entity);
+		}else{
+			this.saveSelective(entity);
+		}
 	}
 
 	/**
@@ -582,6 +612,8 @@ public abstract class BaseService<T> {
 			throw new InternalServerException(t.getClass().getName()+".flag can not be accessed");
 		}
 	}
+	
+
 
 
 }

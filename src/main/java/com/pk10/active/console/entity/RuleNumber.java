@@ -24,6 +24,9 @@ public class RuleNumber extends BaseEntity implements Serializable{
 	private Integer rank;
 	private Integer result;
 	private BigDecimal rate;
+	public String getResultName() {
+		return result.toString();
+	}
 	public String getRankName() {
 		if("0".equals(String.valueOf(this.rank))) {
 			return "冠亚和";

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.zxing.common.StringUtils;
 import com.pk10.active.console.common.util.RejoiceUtil;
+import com.pk10.active.console.entity.LotteryHistory;
 import com.pk10.active.console.entity.RuleNumber;
 import com.pk10.active.console.service.CacheService;
 import com.pk10.active.console.service.RuleNumberService;
@@ -18,7 +19,9 @@ import com.pk10.active.console.service.RuleSideService;
 @Component
 public class RefreshCacheAspect {
 	
-	public final static String[] CLASS_NAMES = {RuleSideService.class.getSimpleName(),RuleNumberService.class.getSimpleName()};
+	public final static String[] CLASS_NAMES = {
+		RuleSideService.class.getSimpleName(),
+		RuleNumberService.class.getSimpleName()};
 
 	@Autowired
 	CacheService cacheService;

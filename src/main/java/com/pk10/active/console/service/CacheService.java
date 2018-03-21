@@ -24,9 +24,12 @@ import org.springframework.web.client.RestTemplate;
 import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.constant.SideNameEnum;
 import com.pk10.active.console.common.util.JsonUtil;
+import com.pk10.active.console.common.util.RejoiceUtil;
+import com.pk10.active.console.entity.LotteryHistory;
 import com.pk10.active.console.entity.RuleNumber;
 import com.pk10.active.console.entity.RuleSide;
 import com.pk10.active.console.vo.CurrentPeriodLottery;
+import com.pk10.active.console.vo.IssueLotteryVo;
 
 
 @Component
@@ -37,6 +40,9 @@ public class CacheService{
 	
 	@Autowired
 	RuleNumberService ruleNumberService;
+	
+	@Autowired
+	LotteryHistoryService lotteryHistoryService;
 	
 	@Autowired
 	RestTemplate restTemplate;
@@ -72,8 +78,9 @@ public class CacheService{
 	
 	@CachePut("current-period-lottery")
 	public CurrentPeriodLottery refreshCurrentPeriodLottery() {
-		String url = "https://www.cp111678.com/getLotteryBase.do?gameCode=bjpk10";
+		String url = "https://www.cp333789.com/getLotteryBase.do?gameCode=bjpk10";
 		String result = restTemplate.getForObject(url, String.class);
+		System.err.println(result);
 		CurrentPeriodLottery lottery = JsonUtil.toBean(result, CurrentPeriodLottery.class);
 		List<Integer> openNum = lottery.getOpenNum();
 		List<String> dragonTiger = new ArrayList<String>();
@@ -82,11 +89,43 @@ public class CacheService{
 		}
 		lottery.setDragonTiger(dragonTiger);
 		List<Object> oneTwoSum = new ArrayList<Object>();
-		Integer ownTowSumInt = openNum.get(0)+openNum.get(1);
+		Integer oneTowSumInt = openNum.get(0)+openNum.get(1);
 		oneTwoSum.add(openNum.get(0)+openNum.get(1));
-		oneTwoSum.add(ownTowSumInt % 2 == 0 ? SideNameEnum.EVEN.label() : SideNameEnum.ODD.label());
-		oneTwoSum.add(ownTowSumInt > 11 ? SideNameEnum.BIG.label() : SideNameEnum.SMALL.label());
+		oneTwoSum.add(oneTowSumInt % 2 == 0 ? SideNameEnum.EVEN.label() : SideNameEnum.ODD.label());
+		oneTwoSum.add(oneTowSumInt > 11 ? SideNameEnum.BIG.label() : SideNameEnum.SMALL.label());
 		lottery.setOneTwoSum(oneTwoSum);
+		
+		//add lotteryHistory
+		LotteryHistory cons = new LotteryHistory();
+		cons.setPeriod(lottery.getPreIssue());
+		cons.setOpenDate(RejoiceUtil.getDateStr2(lottery.getCurrentOpenDateTime()));
+		LotteryHistory exists = lotteryHistoryService.queryOne(cons);
+		if(null == exists){
+			LotteryHistory lotteryHistory = new LotteryHistory();
+			String openNumStr = RejoiceUtil.toString(lottery.getOpenNum());
+			lotteryHistory.setOpenNum(openNumStr);
+			lotteryHistory.setPeriod(lottery.getPreIssue());
+			lotteryHistory.setOpenDateTime(RejoiceUtil.getDateStr3(lottery.getCurrentOpenDateTime()));
+			lotteryHistory.setOpenDate(lotteryHistory.getOpenDateTime().substring(0, 10));
+			String[] openNums = openNumStr.split(",");
+			StringBuilder bigSmall = new StringBuilder();
+			StringBuilder oddEven = new StringBuilder();
+			StringBuilder dragonTigerSB = new StringBuilder();
+			for(int j = 0; j < 10; j++) {
+				oddEven.append(Integer.parseInt(openNums[j]) % 2 == 0? "2": "1").append(",");
+				bigSmall.append(Integer.parseInt(openNums[j]) >= 6 ? "3":"4").append(",");
+				dragonTigerSB.append(Integer.parseInt(openNums[j]) > Integer.parseInt(openNums[9-j])? "5":"6").append(",");
+			}
+			String bigSmallStr = bigSmall.substring(0, bigSmall.length()-1);
+			String oddEvenStr = oddEven.substring(0, oddEven.length()-1);
+			String dragonTigerStr = dragonTigerSB.substring(0, dragonTigerSB.length()-1);
+			lotteryHistory.setBigSmall(bigSmallStr);
+			lotteryHistory.setOddEven(oddEvenStr);
+			oneTowSumInt = Integer.parseInt(openNums[0])+Integer.parseInt(openNums[1]);
+			lotteryHistory.setOneTwoSum(oneTowSumInt+","+(oneTowSumInt % 2 == 0? "2": "1")+","+(oneTowSumInt > 11 ? "3" : "4"));
+			lotteryHistory.setTragonTiger(dragonTigerStr);
+			lotteryHistoryService.saveSelective(lotteryHistory);
+		}
 		return lottery;
 	}
 	
