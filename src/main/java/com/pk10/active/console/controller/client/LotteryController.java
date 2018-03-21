@@ -9,6 +9,12 @@
  */
 package com.pk10.active.console.controller.client;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +39,13 @@ import com.pk10.active.console.vo.CurrentPeriodLottery;
  */
 @RestController
 @RequestMapping("/client/lottery")
+@Api(tags="开奖模块")
 public class LotteryController {
 	
 	@Autowired
 	CacheService cacheService;
 	
+	@ApiOperation(value="最新一期开奖结果", notes="返回最新一期的开奖结果信息")
 	@GetMapping("/current-period")
 	public Result<CurrentPeriodLottery> currentPeriod(){
 		CurrentPeriodLottery currentPeriodLottery = cacheService.getCurrentPeriodLottery();

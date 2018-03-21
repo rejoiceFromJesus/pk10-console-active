@@ -16,14 +16,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(tags="排名模块 ")
 @RequestMapping("/rule-number")
 public class RuleNumberController extends BaseController<RuleNumber, RuleNumberService> {
 
 	
 
 	@GetMapping("/client/list-by-rank")
-	@ApiOperation(value="排名赔率列表", notes="返回冠亚和的值+1~10名的车道号码，页面上")
 	public Result<Map<Integer,List<RuleNumber>>> listByRank(){
 		Map<Integer,List<RuleNumber>> data = new HashMap<>();
 		RuleNumber ruleNumberCons = new RuleNumber();

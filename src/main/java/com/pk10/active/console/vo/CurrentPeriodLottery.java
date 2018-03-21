@@ -9,6 +9,9 @@
  */
 package com.pk10.active.console.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 import java.util.List;
 

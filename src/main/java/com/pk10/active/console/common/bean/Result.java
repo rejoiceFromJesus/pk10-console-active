@@ -9,6 +9,10 @@
  */
 package com.pk10.active.console.common.bean;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 
 /**
  *
@@ -20,10 +24,13 @@ package com.pk10.active.console.common.bean;
  * @version 1.0.0
  *
  */
+@ApiModel(description="返回结果")
 public class Result<T> {
-
+	@ApiModelProperty(name="错误码")
 	private String code;
+	@ApiModelProperty("错误信息")
 	private String msg;
+	@ApiModelProperty("数据")
 	private T data;
 	
 	/**
