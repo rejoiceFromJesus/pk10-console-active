@@ -1,16 +1,16 @@
 <div id="rule-side-table"></div>
 <div id="rule-side-toolbar" style="padding: 5px; height: auto">
 	<div style="margin-bottom: 5px">
-		<a href="#" onclick="addRuleNumber(this)" class="easyui-linkbutton"
+		<a href="#" onclick="addRuleSide(this)" class="easyui-linkbutton"
 			iconCls="icon-add" plain="false">新增</a> <a href="#"
-			onclick="updateRuleNumber(this)" class="easyui-linkbutton"
+			onclick="updateRuleSide(this)" class="easyui-linkbutton"
 			iconCls="icon-edit" plain="false">修改</a> <a href="#"
-			class="easyui-linkbutton" onclick="deleteRuleNumber(this)" iconCls="icon-remove" plain="false">删除</a>
+			class="easyui-linkbutton" onclick="deleteRuleSide(this)" iconCls="icon-remove" plain="false">删除</a>
 	</div>
 	<div style="margin-left: 20px;">
 		<input class="easyui-validatebox" name="rank" placeholder="排名"
 			style="width: 150px;height:25px;" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
-			class="easyui-linkbutton" plan="true" onclick="searchRuleNumber()"
+			class="easyui-linkbutton" plan="true" onclick="searchRuleSide()"
 			iconCls="icon-search">查询</a>
 	</div>
 </div>
@@ -46,7 +46,7 @@
 
 <div id="rule-side-bts">
 		<a href="javascript:void(0)" class="easyui-linkbutton c6"
-			iconCls="icon-ok" onclick="saveRuleNumber()" style="width: 90px">确定</a> <a
+			iconCls="icon-ok" onclick="saveRuleSide()" style="width: 90px">确定</a> <a
 			href="javascript:void(0)" class="easyui-linkbutton"
 			iconCls="icon-cancel"
 			onclick="javascript:$('#rule-side-dialog').dialog('close')"
@@ -57,9 +57,9 @@
 
 <script>
 $(function(){
-	initRuleNumberTable();
+	initRuleSideTable();
 })
-function initRuleNumberTable(){
+function initRuleSideTable(){
 	$('#rule-side-table').datagrid({
 	    url:'/rule-side/page/',
 	    fitColumns:true,
@@ -75,34 +75,34 @@ function initRuleNumberTable(){
 	    columns:[[
 			{field:'id',title:'选择',checkbox:true,width:"5%"},
 			{field:'rankName',title:'排名',width:"12%"},
-			{field:'sideName',title:'结果',width:"12%"},
+			{field:'resultName',title:'结果',width:"12%"},
 			{field:'rate',title:'赔率',width:"15%"},
 			{field:'remark',title:'描述',width:"16%"},
 			{field:'createTime',title:'创建时间',width:"13%"},
 			{field:'updateTime',title:'更新时间',width:"13%"},
 			{field:'opt',title:'操作',width:"18%",formatter: function(value,row,index){
-				return '<a  href="#" class="button button-primary button-pill  button-tiny" onClick="updateRate('+row.id+',\''+row.rankName+'\',\''+row.sideName+'\')">修改赔率</a>'
+				return '<a  href="#" class="button button-primary button-pill  button-tiny" onClick="updateRate('+row.id+',\''+row.rankName+'\',\''+row.resultName+'\')">修改赔率</a>'
 			}}
 			]]
 	})};
 var ruleSideMethod = "GET";
-	function searchRuleNumber() {
+	function searchRuleSide() {
 		$('#rule-side-table').datagrid('load', {
 			rank : $("#rule-side-toolbar").find("input[name='rank']").val(),
 			number : $("#rule-side-toolbar").find("input[name='number']").val()
 		});
 	}
-	function addRuleNumber() {
+	function addRuleSide() {
 		$('#rule-side-dialog').dialog('open').dialog('setTitle', '新增排名');
 		$('#rule-side-form').form('clear');
 		ruleSideMethod="POST";
 	}
 	
-	function updateRate(id,rankName,sideName) {
-		$.messager.prompt('修改 排名【'+rankName+'】,结果 【'+sideName+'】 的赔率', '请输入赔率:', function(r,e){
+	function updateRate(id,rankName,resultName) {
+		$.messager.prompt('修改 排名【'+rankName+'】,结果 【'+resultName+'】 的赔率', '请输入赔率:', function(r,e){
 			if (r){
 				　if (!(/^\d+\.?\d{0,2}$/.test(r))) { 
-					updateRate(id,rankName,sideName);
+					updateRate(id,rankName,resultName);
 				　　　　　　alert('请输入2位小数的正数'); 
 				　　　　　　return false; 
 				　　　　}else { 
@@ -115,7 +115,7 @@ var ruleSideMethod = "GET";
 				
 			}else{
 				if(r != undefined){
-					updateRate(id,rankName,sideName);
+					updateRate(id,rankName,resultName);
 					alert("赔率不能为空");
 				}
 				
@@ -125,7 +125,7 @@ var ruleSideMethod = "GET";
 	
 
 	
-	function updateRuleNumber() {
+	function updateRuleSide() {
 		var rows = $('#rule-side-table').datagrid('getChecked');
 		if(rows.length==0){
 			alert("至少选择一行")
@@ -138,7 +138,7 @@ var ruleSideMethod = "GET";
 		
 		ruleSideMethod = "PUT"
 	}
-	function deleteRuleNumber(){
+	function deleteRuleSide(){
 		var rows = $('#rule-side-table').datagrid('getChecked');
 		if(rows.length==0){
 			alert("至少选择一行");
@@ -166,7 +166,7 @@ var ruleSideMethod = "GET";
 			});
 		}
 	}
-	function saveRuleNumber(){
+	function saveRuleSide(){
 		if (!$('#rule-side-form').form('validate')) {
 			$.messager.alert('提示', '表单还未填写完成!');
 			return;

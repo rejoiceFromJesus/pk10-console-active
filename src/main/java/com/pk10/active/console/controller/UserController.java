@@ -48,7 +48,6 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/user")
-@Api(tags="用户模块")
 public class UserController extends BaseController<User,UserService>{
 
 	@PutMapping("/recharge")
@@ -78,48 +77,7 @@ public class UserController extends BaseController<User,UserService>{
 		return model;
 	}
 	
-	@PostMapping("/client/login")
-	@ApiOperation(value="用户登录", notes="使用手机号和密码进行登录")
-	@ApiImplicitParams({
-        @ApiImplicitParam(name = "loginVo",value = "用户登录vo",dataType="LoginVo",required=true)
-})
-	public Result<Object> clientLogin(@RequestBody LoginVo loginVo,HttpServletRequest request){
-		User user = new User();
-		BeanUtils.copyProperties(loginVo, user);
-		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-		user = this.getService().queryOne(user);
-		if(user != null){
-			request.getSession().setAttribute(Constant.SESSION_KEY, user);
-		}else{
-			return Result.error(CodeMsg.LOGIN_ERROR);
-		}
-		return Result.success(null);
-	}
-	@PostMapping("/client/register")
-	@ApiOperation(value="用户注册", notes="手机号和密码必填")
-	@ApiImplicitParams({
-        @ApiImplicitParam(name = "user",value = "用户实体",  dataType = "User",required=true)
-})
-	public Result<Object> clientRegister(@RequestBody User user){
-		if(StringUtils.isBlank(user.getMobile())){
-			throw new InvalidParamException("mobile is blank");
-		}
-		if(StringUtils.isBlank(user.getPassword())){
-			throw new InvalidParamException("password is blank");
-		}
-		//validate if mobile exists
-		User userExists = new User();
-		userExists.setMobile(user.getMobile());
-		userExists = this.getService().queryOne(userExists);
-		if(userExists != null) {
-			return Result.error(CodeMsg.MOBILE_EXIST);
-		}
-		user.setUsername(user.getMobile());
-		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-		this.getService().saveSelective(user);
-		return Result.success(null);
-	}
-	
+
 	@GetMapping("/logout")
 	public ModelAndView logout(HttpServletRequest request){
 		ModelAndView model = new ModelAndView();

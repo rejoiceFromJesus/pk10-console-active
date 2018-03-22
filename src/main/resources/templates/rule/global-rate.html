@@ -2,26 +2,26 @@
 <div class="bg" style="width:100%;height:100%;">
 <div style="padding:100px 100px;">
 <a href="javascript:void(0);"
-    onclick="updateRate(1)"
+    onclick="updateGlobalRate(1)"
 	class="button button-3d button-primary button-rounded">1~10排名</a>
 	<a href="javascript:void(0);"
-    onclick="updateRate(2)"
+    onclick="updateGlobalRate(2)"
 	class="button button-3d button-primary button-rounded">1~10两面反</a>
 <a href="javascript:void(0);"
-    onclick="updateRate(3)"
+    onclick="updateGlobalRate(3)"
 	class="button button-3d button-primary button-rounded">冠亚和结果</a>
 <a href="javascript:void(0);"
-    onclick="updateRate(4)"
+    onclick="updateGlobalRate(4)"
 	class="button button-3d button-primary button-rounded">冠亚和两面反</a>
 </div>
 </div>
 
 <script>
-function updateRate(type){
+function updateGlobalRate(type){
 	$.messager.prompt('设置【1~10排名】 的赔率', '请输入赔率:', function(r,e){
 		if (r){
 			　if (!(/^\d+\.?\d{0,2}$/.test(r))) { 
-				updateRate(type);
+				updateGlobalRate(type);
 			　　　　　　alert('请输入2位小数的正数'); 
 			　　　　　　return false; 
 			　　　　}else { 
@@ -32,7 +32,7 @@ function updateRate(type){
 			
 		}else{
 			if(r != undefined){
-				updateRate(type);
+				updateGlobalRate(type);
 				alert("赔率不能为空");
 			}
 			
