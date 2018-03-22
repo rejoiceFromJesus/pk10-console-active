@@ -50,18 +50,19 @@ public class User extends BaseEntity {
 	private BigDecimal balance;
 	private String password;
 	private String mobile;
-	private Boolean isAdmin;
+	private Integer isAdmin;
 	
 	
 	public String getAdmin() {
-		return isAdmin?"是":"否";
+		return isAdmin == 1 ? "是":"否";
 	}
 	
 
-	public Boolean getIsAdmin() {
+	
+	public Integer getIsAdmin() {
 		return isAdmin;
 	}
-	public void setIsAdmin(Boolean isAdmin) {
+	public void setIsAdmin(Integer isAdmin) {
 		this.isAdmin = isAdmin;
 	}
 	public String getPassword() {
