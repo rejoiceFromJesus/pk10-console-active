@@ -26,11 +26,11 @@ import java.math.BigDecimal;
  */
 @ApiModel(value="单个投注记录")
 public class Bet {
-	@ApiModelProperty(value="排名")
+	@ApiModelProperty(value="排名",required=true)
 	private Integer rank;
-	@ApiModelProperty(value="结果")
+	@ApiModelProperty(value="结果",required=true)
 	private Integer result;
-	@ApiModelProperty(value="金额")
+	@ApiModelProperty(value="金额",required=true)
 	private BigDecimal money;
 	public Integer getRank() {
 		return rank;
