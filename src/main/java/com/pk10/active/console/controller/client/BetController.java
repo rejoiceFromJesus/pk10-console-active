@@ -9,20 +9,27 @@
  */
 package com.pk10.active.console.controller.client;
 
-import java.util.List;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import javax.servlet.http.HttpSession;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
+import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.entity.User;
+import com.pk10.active.console.handler.InternalServerException;
 import com.pk10.active.console.service.BetRecordService;
+import com.pk10.active.console.service.CacheService;
 import com.pk10.active.console.vo.BetVo;
+import com.pk10.active.console.vo.CurrentPeriodLottery;
 
 
 /**
@@ -36,18 +43,37 @@ import com.pk10.active.console.vo.BetVo;
  *
  */
 @RestController
-@RequestMapping
+@RequestMapping("/client/bet")
+@Api(tags="投注模块")
 public class BetController {
 	
 	@Autowired
 	BetRecordService betRecordService;
 	
-	@PostMapping("/client/bet")
-	public Result<Boolean> bet(@RequestBody List<BetVo> betVoList, HttpSession session){
-		//TODO get login user
+	@Autowired
+	CacheService cacheService;
+	
+	@ApiOperation(value = "投注", notes = "可以一次性投多注")
+	@PostMapping
+	public Result<Boolean> bet(@RequestBody BetVo betVo, HttpSession session){
+		if(betVo.getBetList().size() <= 0){
+			return Result.paramError("投注的注数必须大于0");
+		}
+	
+		CurrentPeriodLottery currentPeriodLottery = cacheService.getCurrentPeriodLottery();
+		if(currentPeriodLottery == null){
+			return Result.error(CodeMsg.SERVER_ERROR);
+		}
+		if(!currentPeriodLottery.getIssue().equals(betVo.getPeriod())){
+			return Result.paramError("投注的期数不正确，请刷新重试");
+		}
+		long now = DateTime.now().getMillis();
+		if((new DateTime(currentPeriodLottery.getOpenDateTime()).getMillis() - now )/1000 < 10 ){
+			return Result.error(CodeMsg.BET_CLOSED);
+		}
 		User user = new User();
 		user.setMobile("123456");
-		betRecordService.betList(betVoList,user);
+		betRecordService.bet(betVo,user);
 		return Result.success(true);
 	}
 }

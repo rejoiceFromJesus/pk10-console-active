@@ -20,7 +20,7 @@ public enum CodeMsg {
 	/**
 	 * 投注
 	 */
-	BET_CLOSED("500300", "bet closed"),
+	BET_CLOSED("500300", "已封盘"),
 	BET_INSUFFICIENT_BALANCE("500301", "insufficient balance"),
 	
 	/**

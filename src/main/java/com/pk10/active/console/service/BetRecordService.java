@@ -1,7 +1,5 @@
 package com.pk10.active.console.service;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +8,7 @@ import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.entity.BetInfo;
 import com.pk10.active.console.entity.BetRecord;
 import com.pk10.active.console.entity.User;
+import com.pk10.active.console.vo.Bet;
 import com.pk10.active.console.vo.BetVo;
 
 @Service
@@ -27,21 +26,20 @@ public class BetRecordService extends BaseService<BetRecord> {
 	/**
 	 * betList(这里用一句话描述这个方法的作用)
 	 * (这里描述这个方法适用条件 – 可选)
-	 * @param betVoList
+	 * @param list
 	 * @param user
 	 * void
 	*/
-	public void betList(List<BetVo> betVoList, User user) {
-		/*String currentTime = DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2));
-		if(cacheService.get)
+	public void bet(BetVo betVo, User user) {
+		String currentTime = DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2);
 		//1、BetInfo
-		for(BetVo betVo: betVoList){
+		for(Bet bet: betVo.getBetList()){
 			BetInfo betInfo = new BetInfo();
 			betInfo.setBetTime(currentTime);
-			betInfo.setLuckyNumber(betVo.getLuckyNumber());
+			betInfo.setResult(bet.getResult());
 			betInfo.setMobile(user.getMobile());
-			betInfo.setPeriod();
-		}*/
+			betInfo.setPeriod(betVo.getPeriod());
+		}
 		//2、BetRecord
 		
 	}

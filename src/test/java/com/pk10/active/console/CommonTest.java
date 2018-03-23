@@ -13,7 +13,11 @@ import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.EnumUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.Test;
+import org.springframework.format.datetime.DateFormatter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pk10.active.console.common.constant.SideNameEnum;
@@ -30,6 +34,12 @@ import com.pk10.active.console.common.util.RejoiceUtil;
  */
 public class CommonTest {
 	
+	@Test
+	public void dateTimeTest(){
+		DateTime now = DateTime.now();
+		System.err.println(now.toString("yyyy-MM-dd HH:mm:ss") +" -  2018-03-23 15:10:00");
+		System.err.println((DateTime.now().getMillis()-DateTime.parse("2018-03-23 15:10:00",DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")).getMillis())/1000);
+	}
 	@Test
 	public void classNameTest(){
 		System.err.println(RejoiceUtil.className("side-name", "-"));

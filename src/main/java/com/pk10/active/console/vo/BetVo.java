@@ -9,7 +9,17 @@
  */
 package com.pk10.active.console.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -21,29 +31,27 @@ import java.math.BigDecimal;
  * @version 1.0.0
  *
  */
+@ApiModel(value="投注实体",subTypes=Bet.class)
 public class BetVo {
 
-	private Integer rank;
-	private Integer luckyNumber;
-	private BigDecimal money;
+	@ApiModelProperty(required=true,dataType="整数" ,value="当前期数" )
+	private Integer period;
+	@ApiModelProperty(required=true,value="投注列表",dataType="Bet")
+	List<Bet> betList = new ArrayList<Bet>();
+	public Integer getPeriod() {
+		return period;
+	}
+	public void setPeriod(Integer period) {
+		this.period = period;
+	}
+	public List<Bet> getBetList() {
+		return betList;
+	}
+	public void setBetList(List<Bet> betList) {
+		this.betList = betList;
+	}
 	
-	public Integer getRank() {
-		return rank;
-	}
-	public void setRank(Integer rank) {
-		this.rank = rank;
-	}
-	public Integer getLuckyNumber() {
-		return luckyNumber;
-	}
-	public void setLuckyNumber(Integer luckyNumber) {
-		this.luckyNumber = luckyNumber;
-	}
-	public BigDecimal getMoney() {
-		return money;
-	}
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
+	
+	
 	
 }
