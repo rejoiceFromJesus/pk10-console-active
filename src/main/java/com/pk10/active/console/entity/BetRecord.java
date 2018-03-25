@@ -22,6 +22,7 @@ public class BetRecord extends BaseEntity {
 	private BigDecimal balance;
 	private String betTime;
 	private String openTime;
+	private BigDecimal betMoney;
 	private Boolean isOpen;
 	public String getMobile() {
 		return mobile;
@@ -70,6 +71,12 @@ public class BetRecord extends BaseEntity {
 	}
 	public void setIsOpen(Boolean isOpen) {
 		this.isOpen = isOpen;
+	}
+	public BigDecimal getBetMoney() {
+		return betMoney;
+	}
+	public void setBetMoney(BigDecimal betMoney) {
+		this.betMoney = betMoney;
 	}
 	
 

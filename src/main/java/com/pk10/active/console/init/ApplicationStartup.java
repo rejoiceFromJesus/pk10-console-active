@@ -25,6 +25,7 @@ implements ApplicationListener<ContextRefreshedEvent> {
 		System.err.println("init cache.....");
 		cacheService.refreshRuleSideList();
 		cacheService.refreshRuleNumberList();
+		cacheService.refreshRatesMap();
 	}
 
  

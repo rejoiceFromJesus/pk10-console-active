@@ -12,6 +12,8 @@ package com.pk10.active.console.controller.client;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.math.BigDecimal;
+
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
@@ -72,7 +74,8 @@ public class BetController {
 			return Result.error(CodeMsg.BET_CLOSED);
 		}
 		User user = new User();
-		user.setMobile("123456");
+		user.setMobile("1234");
+		user.setBalance(new BigDecimal(10000));
 		betRecordService.bet(betVo,user);
 		return Result.success(true);
 	}

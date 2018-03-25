@@ -74,14 +74,15 @@ function initBetRecordTable(){
 	    pageList:[10,30,50,100],
 	    
 	    columns:[[
-			{field:'period',title:'期数',width:"10%"},
-			{field:'mobile',title:'手机号',width:"13%"},
-			{field:'money',title:'金额',width:"12%"},
-			{field:'bonus',title:'奖金',width:"12%"},
-			{field:'balance',title:'余额',width:"12%"},
+			{field:'period',title:'期数',width:"8%"},
+			{field:'mobile',title:'手机号',width:"12%"},
+			{field:'money',title:'投注前余额',width:"10%"},
+			{field:'betMoney',title:'投注金额',width:"10%"},
+			{field:'bonus',title:'奖金',width:"10%"}, 
+			{field:'balance',title:'投注后余额余额',width:"10%"},
 			{field:'betTime',title:'投注时间',width:"14%"},
 			{field:'openTime',title:'开奖时间',width:"14%"},
-			{field:'statusLabel',title:'状态',width:"12%"}
+			{field:'statusLabel',title:'状态',width:"11%"}
 			]]
 	})};
 	function searchBetRecord() {

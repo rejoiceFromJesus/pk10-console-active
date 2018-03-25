@@ -1,5 +1,6 @@
 package com.pk10.active.console.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.pk10.active.console.common.constant.Constant;
+import com.pk10.active.console.common.constant.RuleTypeEnum;
 import com.pk10.active.console.common.constant.SideNameEnum;
 import com.pk10.active.console.common.util.JsonUtil;
 import com.pk10.active.console.common.util.RejoiceUtil;
@@ -49,8 +51,7 @@ public class CacheService{
 	
 	@Cacheable("rule-side")
 	public List<Map<String,Object>> getRuleSideList(){
-	
-		return null;
+		return refreshRuleSideList();
 	}
 	
 	@CachePut("rule-side")
@@ -66,14 +67,13 @@ public class CacheService{
 			singleRank.put("data", list);
 			result.add(singleRank);
 		}
-		
 		return result;
 	}
 	
 	@Cacheable("current-period-lottery")
 	public CurrentPeriodLottery getCurrentPeriodLottery(){
 	
-		return null;
+		return refreshCurrentPeriodLottery();
 	}
 	
 	@CachePut("current-period-lottery")
@@ -143,13 +143,40 @@ public class CacheService{
 			singleRank.put("data", list);
 			result.add(singleRank);
 		}
-		
 		return result;
 	}
 
 	@Cacheable("rule-number")
 	public List<Map<String,Object>> getRuleNumberList() {
-		return null;
+		return refreshRuleNumberList();
 	}
+	
+	
+	@Cacheable("rates-map")
+	public Map<String,BigDecimal> getRatesMap() {
+		return refreshRatesMap();
+	}
+	
+	@CachePut("rates-map")
+	public Map<String,BigDecimal> refreshRatesMap() {
+		Map<String,BigDecimal> ratesMap = new HashMap<>();
+		List<Map<String, Object>> ruleNumberList = this.getRuleNumberList();
+		ruleNumberList.forEach(item -> {
+			List<RuleNumber> ruleNumbers = (List<RuleNumber>) item.get("data");
+			ruleNumbers.forEach(ruleNumber -> {
+				ratesMap.put(RuleTypeEnum.NUMBER.value()+"-"+ruleNumber.getRank()+"-"+ruleNumber.getResult(), ruleNumber.getRate());
+			});
+		});
+		List<Map<String, Object>> ruleSideList = this.getRuleSideList();
+		ruleSideList.forEach(item -> {
+			List<RuleSide> ruleSides = (List<RuleSide>) item.get("data");
+			ruleSides.forEach(ruleSide -> {
+				ratesMap.put(RuleTypeEnum.SIDE.value()+"-"+ruleSide.getRank()+"-"+ruleSide.getResult(), ruleSide.getRate());
+			});
+		});
+		return ratesMap;
+	}
+
+
 
 }

@@ -48,8 +48,9 @@ public class RefreshCacheAspect {
 				}else if(className.equals(CLASS_NAMES[1])) {
 					cacheService.refreshRuleNumberList();
 				}
-				
+				cacheService.refreshRatesMap();
 			}
+		
 		}
     	
     }

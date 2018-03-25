@@ -36,6 +36,8 @@ public class BetVo {
 
 	@ApiModelProperty(required=true,dataType="整数" ,value="当前期数" )
 	private Integer period;
+	@ApiModelProperty(required=true,dataType="整数" ,value="投注类型：1-排名，2-两面反" )
+	private Integer type;
 	@ApiModelProperty(required=true,value="投注列表",dataType="Bet")
 	List<Bet> betList = new ArrayList<Bet>();
 	public Integer getPeriod() {
@@ -49,6 +51,12 @@ public class BetVo {
 	}
 	public void setBetList(List<Bet> betList) {
 		this.betList = betList;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
 	}
 	
 	
