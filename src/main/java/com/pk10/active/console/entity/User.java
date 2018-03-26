@@ -58,8 +58,8 @@ public class User extends BaseEntity {
 	}
 	
 
-	
 	public Integer getIsAdmin() {
+		
 		return isAdmin;
 	}
 	public void setIsAdmin(Integer isAdmin) {

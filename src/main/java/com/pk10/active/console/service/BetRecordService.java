@@ -83,7 +83,11 @@ public class BetRecordService extends BaseService<BetRecord> {
 		tradeRecord.setType(TradeTypeEnum.BET.value());
 		tradeRecord.setRemark(TradeTypeEnum.BET.label());
 		tradeRecordService.saveSelective(tradeRecord);
-		
+		//4、update user
+		User newUser = new User();
+		newUser.setMobile(user.getMobile());
+		newUser.setBalance(betRecord.getBalance());
+		userService.updateByMobileSelective(newUser);
 	}
 
 

@@ -55,6 +55,14 @@ public class UserService extends BaseService<User> {
 	UserMapper userMapper;
 
 	
+	public void updateByMobileSelective(User user) {
+		Example example = new Example(User.class);
+		Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("mobile", user.getMobile());
+		user.setMobile(null);
+		userMapper.updateByExampleSelective(user, example);
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.pk10.active.console.service.BaseService#save(java.lang.Object)
 	 */
