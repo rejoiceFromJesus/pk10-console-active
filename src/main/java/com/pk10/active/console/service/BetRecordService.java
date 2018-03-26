@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pk10.active.console.common.constant.Constant;
+import com.pk10.active.console.common.constant.TradeTypeEnum;
 import com.pk10.active.console.common.util.Arith;
 import com.pk10.active.console.common.util.RejoiceUtil;
 import com.pk10.active.console.entity.BetInfo;
 import com.pk10.active.console.entity.BetRecord;
+import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.vo.Bet;
 import com.pk10.active.console.vo.BetVo;
@@ -70,6 +72,17 @@ public class BetRecordService extends BaseService<BetRecord> {
 		betRecord.setOpenTime(RejoiceUtil.getDateStr3(cacheService.getCurrentPeriodLottery().getOpenDateTime()));
 		betRecord.setPeriod(betVo.getPeriod());
 		betRecordService.saveSelective(betRecord);
+		//3、tradeRecord
+		TradeRecord tradeRecord = new TradeRecord();
+		tradeRecord.setBalance(betRecord.getBalance());
+		tradeRecord.setBetTime(betRecord.getBetTime());
+		tradeRecord.setMobile(betRecord.getMobile());
+		tradeRecord.setMoney(betRecord.getBetMoney().multiply(new BigDecimal(-1)));
+		tradeRecord.setPeriod(betRecord.getPeriod());
+		tradeRecord.setTradeTime(tradeRecord.getBetTime());
+		tradeRecord.setType(TradeTypeEnum.BET.value());
+		tradeRecord.setRemark(TradeTypeEnum.BET.label());
+		tradeRecordService.saveSelective(tradeRecord);
 		
 	}
 

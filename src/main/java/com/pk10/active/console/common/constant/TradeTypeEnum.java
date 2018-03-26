@@ -6,8 +6,10 @@ import java.util.Map;
 
 public enum TradeTypeEnum{
 
-	BET("投注",1),
-	RECHARGE("充值",2);
+	RECHARGE("充值",1),
+	BET("投注",2),
+	SETTLE("结算",3);
+	
 	
 	private static Map<String, TradeTypeEnum> LOOK_UP = new HashMap<>();
 	
@@ -21,7 +23,7 @@ public enum TradeTypeEnum{
 	public String label() {
 		return this.label;
 	}
-	public Serializable value() {
+	public Integer value() {
 		return this.value;
 	}
 	private String label; 
