@@ -17,6 +17,13 @@ public class BetInfo extends BaseEntity {
 	private BigDecimal money;
 	private Integer type;
 	private BigDecimal rate;
+	public String getRankName() {
+		if("0".equals(String.valueOf(this.rank))) {
+			return "冠亚和";
+		}else {
+			return "第"+rank+"名";
+		}
+	}
 	public Integer getRank() {
 		return rank;
 	}

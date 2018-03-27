@@ -117,3 +117,15 @@ input:FOCUS{
 		.fitem input{
 			width:200px;
 		}
+		
+		
+.datagrid-row-detail .datagrid-htable{
+	background: #359bcc!important;
+	height: 32px;
+}
+.datagrid-header-over{
+	background: #0e87ef!important;
+}
+.datagrid-row-detail td.datagrid-header-over{
+	background: #0ebef3!important;
+}
