@@ -17,9 +17,7 @@ public class BetRecord extends BaseEntity {
 	//***************page fields end*******************//
 	private String mobile;
 	private Integer period;
-	private BigDecimal money;
 	private BigDecimal bonus;
-	private BigDecimal balance;
 	private String betTime;
 	private String openTime;
 	private BigDecimal betMoney;
@@ -36,23 +34,11 @@ public class BetRecord extends BaseEntity {
 	public void setPeriod(Integer period) {
 		this.period = period;
 	}
-	public BigDecimal getMoney() {
-		return money;
-	}
-	public void setMoney(BigDecimal money) {
-		this.money = money;
-	}
 	public BigDecimal getBonus() {
 		return bonus;
 	}
 	public void setBonus(BigDecimal bonus) {
 		this.bonus = bonus;
-	}
-	public BigDecimal getBalance() {
-		return balance;
-	}
-	public void setBalance(BigDecimal balance) {
-		this.balance = balance;
 	}
 	public String getBetTime() {
 		return betTime;

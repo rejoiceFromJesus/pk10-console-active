@@ -73,6 +73,7 @@ public class TradeRecord extends BaseEntity {
 	public void setBetTime(String betTime) {
 		this.betTime = betTime;
 	}
+
 	
 
 }

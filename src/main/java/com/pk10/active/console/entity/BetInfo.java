@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Table;
 
+import com.pk10.active.console.common.constant.RuleTypeEnum;
 import com.pk10.active.console.common.constant.SideNameEnum;
 
 @Table(name="bet_info")
@@ -15,8 +16,24 @@ public class BetInfo extends BaseEntity {
 	private Integer period;
 	private String betTime;
 	private BigDecimal money;
+	private BigDecimal bonus;
+	private Integer luckyResult;
 	private Integer type;
 	private BigDecimal rate;
+	
+	public String getLuckyResultLabel(){
+		if(RuleTypeEnum.NUMBER.value().equals(type)){
+			return luckyResult == null ? null : luckyResult.toString();
+		}else{
+			return SideNameEnum.label(luckyResult);
+		}
+	}
+	public String getResultLabel() {
+		if(RuleTypeEnum.SIDE.value().equals(type)){
+			return SideNameEnum.label(this.result);
+		}
+		return this.result.toString();
+	}
 	public String getRankName() {
 		if("0".equals(String.valueOf(this.rank))) {
 			return "冠亚和";
@@ -75,11 +92,17 @@ public class BetInfo extends BaseEntity {
 	public void setRate(BigDecimal rate) {
 		this.rate = rate;
 	}
-	public String getResultLabel() {
-		if(this.type==1) {
-			return SideNameEnum.label(this.result);
-		}
-		return this.result.toString();
+	public BigDecimal getBonus() {
+		return bonus;
+	}
+	public void setBonus(BigDecimal bonus) {
+		this.bonus = bonus;
+	}
+	public Integer getLuckyResult() {
+		return luckyResult;
+	}
+	public void setLuckyResult(Integer luckyResult) {
+		this.luckyResult = luckyResult;
 	}
 	
 	

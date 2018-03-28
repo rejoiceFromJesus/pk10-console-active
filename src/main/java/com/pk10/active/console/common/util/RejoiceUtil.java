@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -32,7 +33,9 @@ public class RejoiceUtil {
 	
 	private static Logger LOGGER = LoggerFactory.getLogger(RejoiceUtil.class);
 	
-	
+	public static int[] parseString2IntArray(String[] arr) {
+	    return Stream.of(arr).mapToInt(Integer::parseInt).toArray();
+	}
 	/**
 	 * 
 	 * buildHalfYears: build a list with string like yyyy年上半年 or yyyy年下半年, from startYear to now

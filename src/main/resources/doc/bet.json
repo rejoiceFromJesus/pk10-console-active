@@ -1,0 +1,61 @@
+{
+  "betList": [
+    {
+      "money": 2.3,
+      "rank": 1,
+      "result": 1
+    },
+  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 2
+    },
+
+  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 3
+    },
+  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 4
+    },
+  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 5
+    },
+  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 6
+    },  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 7
+    },  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 8
+    },  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 9
+    },  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 10
+    },  {
+      "money": 2.3,
+      "rank": 1,
+      "result": 1
+    },  {
+      "money": 2.3,
+      "rank": 2,
+      "result": 1
+    }
+  ],
+  "period": 673434,
+  "type": 1
+}

@@ -8,7 +8,7 @@ public enum TradeTypeEnum{
 
 	RECHARGE("充值",1),
 	BET("投注",2),
-	SETTLE("结算",3);
+	SETTLE("中奖结算",3);
 	
 	
 	private static Map<String, TradeTypeEnum> LOOK_UP = new HashMap<>();

@@ -10,11 +10,22 @@
  */
 package com.pk10.active.console.task;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.github.pagehelper.PageInfo;
+import com.pk10.active.console.common.util.RejoiceUtil;
+import com.pk10.active.console.entity.BetRecord;
+import com.pk10.active.console.entity.LotteryHistory;
+import com.pk10.active.console.service.BetRecordService;
 import com.pk10.active.console.service.CacheService;
+import com.pk10.active.console.service.LotteryHistoryService;
 
 /**
  *
@@ -28,13 +39,61 @@ import com.pk10.active.console.service.CacheService;
  */
 @Component
 public class SettleBetRecordTask {
-	
+
+	public static final Logger LOGGER = LoggerFactory
+			.getLogger(SettleBetRecordTask.class);
+
+	public static final Integer pageSize = 200;
+
 	@Autowired
 	CacheService cacheService;
 
-	@Scheduled(cron = "0/5 * * * * ?")
+	@Autowired
+	BetRecordService betRecordService;
+
+	@Autowired
+	LotteryHistoryService lotteryHistoryService;
+
+	//@Scheduled(fixedRate=20000)
+	@Scheduled(cron = "0 0/10 * * * ?")
 	public void execute() {
-		cacheService.refreshCurrentPeriodLottery();
+		LOGGER.info("SettleBetRecordTask starts =======================");
+		long startTime = System.currentTimeMillis();
+		Map<String, LotteryHistory> lotteryHistoryMap = new HashMap<String, LotteryHistory>();
+		int pageNum = 1;
+		BetRecord betRecordCons = new BetRecord();
+		betRecordCons.setIsOpen(false);
+		while (true) {
+			PageInfo<BetRecord> betRecordPageInfo = betRecordService
+					.queryListByPageAndOrder(betRecordCons, pageNum, pageSize,
+							null);
+			for (BetRecord betRecord : betRecordPageInfo.getList()) {
+				try {
+
+					if (lotteryHistoryMap.get(betRecord.getPeriod().toString()) == null) {
+						LotteryHistory lotteryHistoryCons = new LotteryHistory();
+						lotteryHistoryCons.setPeriod(betRecord.getPeriod());
+						LotteryHistory lotteryHistory = lotteryHistoryService
+								.queryOne(lotteryHistoryCons);
+						if (lotteryHistory == null) {
+							continue;
+						}
+						lotteryHistoryMap.put(betRecord.getPeriod().toString(), lotteryHistory);
+					}
+					betRecordService.settle(betRecord,lotteryHistoryMap.get(betRecord.getPeriod().toString()));
+				} catch (Exception e) {
+					LOGGER.warn("settle betRecord failed :",e);
+				}
+			}
+			if (betRecordPageInfo.getSize() < pageSize) {
+				break;
+			}
+			pageNum++;
+		}
+		long costTime = System.currentTimeMillis()-startTime;
+		String costTimeStr = costTime > 1000 ? costTime/1000.0+"秒":costTime+"毫秒";
+		LOGGER.info("SettleBetRecordTask costs time:"+costTimeStr+"=======================");
+		LOGGER.info("SettleBetRecordTask ends =======================");
 	}
 
 }

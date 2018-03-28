@@ -30,6 +30,7 @@ import com.pk10.active.console.common.util.RejoiceUtil;
 import com.pk10.active.console.entity.LotteryHistory;
 import com.pk10.active.console.entity.RuleNumber;
 import com.pk10.active.console.entity.RuleSide;
+import com.pk10.active.console.task.SettleBetRecordTask;
 import com.pk10.active.console.vo.CurrentPeriodLottery;
 import com.pk10.active.console.vo.IssueLotteryVo;
 
@@ -45,6 +46,9 @@ public class CacheService{
 	
 	@Autowired
 	LotteryHistoryService lotteryHistoryService;
+	
+	@Autowired
+	SettleBetRecordTask settleBetRecordTask;
 	
 	@Autowired
 	RestTemplate restTemplate;
@@ -125,6 +129,9 @@ public class CacheService{
 			lotteryHistory.setOneTwoSum(oneTowSumInt+","+(oneTowSumInt % 2 == 0? "2": "1")+","+(oneTowSumInt > 11 ? "3" : "4"));
 			lotteryHistory.setTragonTiger(dragonTigerStr);
 			lotteryHistoryService.saveSelective(lotteryHistory);
+			
+			//do one settle
+			settleBetRecordTask.execute();
 		}
 		return lottery;
 	}
