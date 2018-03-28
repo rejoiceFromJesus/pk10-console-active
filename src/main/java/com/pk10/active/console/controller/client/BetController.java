@@ -79,4 +79,11 @@ public class BetController {
 		betRecordService.bet(betVo,user);
 		return Result.success(true);
 	}
+	
+/*	
+	@ApiOperation(value = "投注历史")
+	@PostMapping
+	public List<String,Object> bet(HttpSession session){
+		return Result.success(true);
+	}*/
 }
