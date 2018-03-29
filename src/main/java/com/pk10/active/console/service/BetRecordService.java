@@ -64,6 +64,7 @@ public class BetRecordService extends BaseService<BetRecord> {
 		}
 		betInfoService.saveBatchSelective(betInfoList);
 		BigDecimal balance = user.getBalance().subtract(moneySum);
+		user.setBalance(balance);
 		//2、BetRecord
 		BetRecord betRecord = new BetRecord();
 		betRecord.setBetTime(currentTime);

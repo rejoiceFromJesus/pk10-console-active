@@ -1,5 +1,7 @@
 package com.pk10.active.console.entity;
 
+import java.util.List;
+
 import javax.persistence.Table;
 
 @Table(name="lottery_history")
@@ -14,6 +16,10 @@ public class LotteryHistory extends BaseEntity {
 	  private String bigSmall;
 	  private String tragonTiger;
 	  private String openDateTime;
+	  
+	  public String[] getOpenNums(){
+		  return openNum.split(",");
+	  }
 	public String getGameCode() {
 		return gameCode;
 	}

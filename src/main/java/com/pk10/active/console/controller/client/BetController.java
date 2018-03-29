@@ -13,13 +13,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,7 +55,7 @@ public class BetController {
 	
 	@ApiOperation(value = "投注", notes = "可以一次性投多注")
 	@PostMapping
-	public Result<Boolean> bet(@RequestBody BetVo betVo, HttpSession session){
+	public Result<User> bet(@RequestBody BetVo betVo, HttpSession session){
 		if(betVo.getBetList().size() <= 0){
 			return Result.paramError("投注的注数必须大于0");
 		}
@@ -77,7 +75,7 @@ public class BetController {
 		user.setMobile("1234");
 		user.setBalance(new BigDecimal(10000));
 		betRecordService.bet(betVo,user);
-		return Result.success(true);
+		return Result.success(user);
 	}
 	
 	
