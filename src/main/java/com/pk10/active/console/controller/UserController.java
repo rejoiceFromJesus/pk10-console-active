@@ -51,8 +51,14 @@ import io.swagger.annotations.ApiOperation;
 public class UserController extends BaseController<User,UserService>{
 
 	@PutMapping("/recharge")
-	public Result<Boolean> changePwd(@RequestBody RechargeRecord rechargeRecord){
+	public Result<Boolean> recharge(@RequestBody RechargeRecord rechargeRecord){
 		this.getService().recharge(rechargeRecord.getMobile(),rechargeRecord.getMoney());
+		return Result.success(true);
+	}
+	
+	@PutMapping("/withdraw")
+	public Result<Boolean> withdraw(@RequestBody RechargeRecord rechargeRecord){
+		this.getService().withdraw(rechargeRecord.getMobile(),rechargeRecord.getMoney());
 		return Result.success(true);
 	}
 	@PutMapping("/change-pwd")

@@ -26,6 +26,7 @@ import tk.mybatis.mapper.util.StringUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.constant.Constant;
+import com.pk10.active.console.common.constant.TradeTypeEnum;
 import com.pk10.active.console.common.util.RejoiceUtil;
 import com.pk10.active.console.entity.RechargeRecord;
 import com.pk10.active.console.entity.TradeRecord;
@@ -93,9 +94,35 @@ public class UserService extends BaseService<User> {
 		TradeRecord tradeRecord = new TradeRecord();
 		tradeRecord.setMobile(mobile);
 		tradeRecord.setMoney(money);
-		tradeRecord.setRemark("充值");
+		tradeRecord.setRemark(TradeTypeEnum.RECHARGE.label());
 		tradeRecord.setTradeTime(rechargeRecord.getTradeTime());
-		tradeRecord.setType(TradeRecord.TYPE_RECHARGE);
+		tradeRecord.setType(TradeTypeEnum.RECHARGE.value());
+		tradeRecord.setBalance(updateUser.getBalance());
+		tradeRecordService.saveSelective(tradeRecord);
+	}
+
+	/**
+	 * withdraw(这里用一句话描述这个方法的作用)
+	 * (这里描述这个方法适用条件 – 可选)
+	 * @param mobile
+	 * @param money
+	 * void
+	*/
+	public void withdraw(String mobile, BigDecimal money) {
+		User userCons = new User();
+		userCons.setMobile(mobile);
+		User user = userMapper.selectOne(userCons);
+		User updateUser = new User();
+		updateUser.setId(user.getId());
+		updateUser.setBalance(user.getBalance().subtract(money));
+		this.updateByIdSelective(updateUser);
+		//add TradeRecord
+		TradeRecord tradeRecord = new TradeRecord();
+		tradeRecord.setMobile(mobile);
+		tradeRecord.setMoney(money.multiply(new BigDecimal(-1)));
+		tradeRecord.setRemark(TradeTypeEnum.WITHDRAW.label());
+		tradeRecord.setTradeTime(DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2));
+		tradeRecord.setType(TradeTypeEnum.WITHDRAW.value());
 		tradeRecord.setBalance(updateUser.getBalance());
 		tradeRecordService.saveSelective(tradeRecord);
 	} 

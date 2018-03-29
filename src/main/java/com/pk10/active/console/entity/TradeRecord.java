@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Table;
 
+import com.pk10.active.console.common.constant.TradeTypeEnum;
+
 @Table(name="trade_record")
 public class TradeRecord extends BaseEntity {
 
@@ -13,23 +15,10 @@ public class TradeRecord extends BaseEntity {
 	private BigDecimal balance;
 	private String tradeTime;
 	private Integer type;
-	public static final Integer TYPE_RECHARGE = 1;
-	public static final Integer TYPE_BET = 2;
-	public static final Integer TYPE_SETTLE = 3;
 	private String betTime;
 	
 	public String getTypeLabel() {
-		switch(type) {
-		case 1: 
-			return "充值";
-		case 2: 
-			return "投注";
-		case 3: 
-			return "结算";
-			
-		}
-		
-		return "未知";
+		return TradeTypeEnum.label(this.type);
 	}
 	public String getMobile() {
 		return mobile;

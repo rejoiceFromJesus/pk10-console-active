@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
+import com.pk10.active.console.common.constant.TradeTypeEnum;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.service.BetRecordService;
@@ -63,6 +64,16 @@ public class TradeController {
 	public Result<List<TradeRecord>> recentList(HttpSession session){
 		TradeRecord cons = new TradeRecord();
 		cons.setMobile("1234");
+		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
+		return Result.success(tradePageInfo.getList());
+	}
+	
+	@ApiOperation(value = "提现记录", notes = "只返回最新50条")
+	@GetMapping("/withdraw/recent")
+	public Result<List<TradeRecord>> recentWithdrawList(HttpSession session){
+		TradeRecord cons = new TradeRecord();
+		cons.setMobile("1234");
+		cons.setType(TradeTypeEnum.WITHDRAW.value());
 		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
 		return Result.success(tradePageInfo.getList());
 	}
