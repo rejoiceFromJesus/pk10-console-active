@@ -55,7 +55,7 @@ public class ClientUserController {
 	@PostMapping("login")
 	@ApiOperation(value = "用户登录", notes = "使用手机号和密码进行登录")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "loginVo", value = "用户登录vo", dataType = "LoginVo", required = true) })
-	public Result<Object> login(@RequestBody LoginVo loginVo,
+	public Result<User> login(@RequestBody LoginVo loginVo,
 			HttpServletRequest request) {
 		User user = new User();
 		BeanUtils.copyProperties(loginVo, user);
@@ -66,7 +66,7 @@ public class ClientUserController {
 		} else {
 			return Result.error(CodeMsg.LOGIN_ERROR);
 		}
-		return Result.success(null);
+		return Result.success(user);
 	}
 
 	@PostMapping("/register")

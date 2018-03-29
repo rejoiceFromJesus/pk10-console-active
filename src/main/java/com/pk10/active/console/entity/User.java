@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * User
@@ -35,6 +37,7 @@ public class User extends BaseEntity {
 	
 	
 	@Transient
+	@JsonIgnore
 	private String oldPassword;
 	
 	public String getOldPassword() {
@@ -48,6 +51,7 @@ public class User extends BaseEntity {
 	private Integer id;
 	private String username;
 	private BigDecimal balance;
+	@JsonIgnore
 	private String password;
 	private String mobile;
 	private Integer isAdmin;
