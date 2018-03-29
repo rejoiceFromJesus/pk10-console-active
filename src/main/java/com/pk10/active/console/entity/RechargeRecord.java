@@ -10,6 +10,14 @@ public class RechargeRecord extends BaseEntity{
 	private String mobile;
 	private BigDecimal money;
 	private String tradeTime;
+	private BigDecimal balance;
+	
+	public BigDecimal getBalance() {
+		return balance;
+	}
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 	public String getMobile() {
 		return mobile;
 	}

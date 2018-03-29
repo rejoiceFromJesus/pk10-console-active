@@ -86,6 +86,7 @@ public class UserService extends BaseService<User> {
 		rechargeRecord.setMobile(mobile);
 		rechargeRecord.setMoney(money);
 		rechargeRecord.setRemark("充值");
+		rechargeRecord.setBalance(updateUser.getBalance());
 		rechargeRecord.setTradeTime(DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2));
 		rechargeRecordService.saveSelective(rechargeRecord);
 		//add TradeRecord
