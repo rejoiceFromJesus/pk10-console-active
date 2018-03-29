@@ -11,6 +11,8 @@ package com.pk10.active.console;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,7 +51,7 @@ import com.pk10.active.console.common.util.ImageService;
 @MapperScan(basePackages = "com.pk10.active.console.mapper")
 public class ActiveConsole {
 
-	public static final String QRCODE_ENDPOINT = "/qrcode";
+	public static final String QRCODE_ENDPOINT = "/public/qrcode";
 	public static final long THIRTY_MINUTES = 1800000; 
 	
 	@Autowired
@@ -65,10 +67,10 @@ public class ActiveConsole {
 	}
 	
 	@GetMapping(value = QRCODE_ENDPOINT, produces = MediaType.IMAGE_PNG_VALUE)
-	public ResponseEntity<byte[]> getQRCode(@RequestParam(value = "text", required = true) String text) {
+	public ResponseEntity<byte[]> getQRCode(HttpServletRequest request) {
 		try {
 			return ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-					.body(imageService.generateQRCodeAsync(text, 256, 256).get());
+					.body(imageService.generateQRCodeAsync("http://"+request.getLocalAddr()+":"+request.getLocalPort(), 256, 256).get());
 		} catch (Exception ex) {
 			throw new InternalServerError("Error while generating QR code image.", ex);
 		}
