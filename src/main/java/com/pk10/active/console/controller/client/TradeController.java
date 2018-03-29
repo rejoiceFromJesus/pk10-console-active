@@ -25,11 +25,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
+import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.service.BetRecordService;
 import com.pk10.active.console.service.CacheService;
+import com.pk10.active.console.service.TradeRecordService;
 import com.pk10.active.console.vo.BetVo;
 import com.pk10.active.console.vo.CurrentPeriodLottery;
 
@@ -45,39 +48,23 @@ import com.pk10.active.console.vo.CurrentPeriodLottery;
  *
  */
 @RestController
-@RequestMapping("/client/bet")
-@Api(tags="投注模块")
-public class BetController {
+@RequestMapping("/client/trade")
+@Api(tags="交易模块")
+public class TradeController {
 	
 	@Autowired
-	BetRecordService betRecordService;
+	TradeRecordService tradeRecordService;
 	
 	@Autowired
 	CacheService cacheService;
 	
-	@ApiOperation(value = "投注", notes = "可以一次性投多注")
-	@PostMapping
-	public Result<Boolean> bet(@RequestBody BetVo betVo, HttpSession session){
-		if(betVo.getBetList().size() <= 0){
-			return Result.paramError("投注的注数必须大于0");
-		}
-	
-		CurrentPeriodLottery currentPeriodLottery = cacheService.getCurrentPeriodLottery();
-		if(currentPeriodLottery == null){
-			return Result.error(CodeMsg.SERVER_ERROR);
-		}
-		if(!currentPeriodLottery.getIssue().equals(betVo.getPeriod())){
-			return Result.paramError("投注的期数不正确，请刷新重试");
-		}
-		long now = DateTime.now().getMillis();
-		if((new DateTime(currentPeriodLottery.getOpenDateTime()).getMillis() - now )/1000 < 10 ){
-			return Result.error(CodeMsg.BET_CLOSED);
-		}
-		User user = new User();
-		user.setMobile("1234");
-		user.setBalance(new BigDecimal(10000));
-		betRecordService.bet(betVo,user);
-		return Result.success(true);
+	@ApiOperation(value = "交易记录", notes = "只返回最新50条")
+	@GetMapping("/recent")
+	public Result<List<TradeRecord>> recentList(HttpSession session){
+		TradeRecord cons = new TradeRecord();
+		cons.setMobile("1234");
+		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
+		return Result.success(tradePageInfo.getList());
 	}
 	
 	
