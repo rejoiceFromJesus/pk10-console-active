@@ -55,7 +55,7 @@ public class SettleBetRecordTask {
 	LotteryHistoryService lotteryHistoryService;
 
 	//@Scheduled(fixedRate=20000)
-	@Scheduled(cron = "0 0/10 * * * ?")
+	@Scheduled(cron = "0 0 1 * * ?")
 	public void execute() {
 		LOGGER.info("SettleBetRecordTask starts =======================");
 		long startTime = System.currentTimeMillis();
