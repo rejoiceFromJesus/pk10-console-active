@@ -25,12 +25,14 @@ import tk.mybatis.mapper.util.StringUtil;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.constant.TradeTypeEnum;
 import com.pk10.active.console.common.util.RejoiceUtil;
 import com.pk10.active.console.entity.RechargeRecord;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
+import com.pk10.active.console.handler.InvalidParamException;
 import com.pk10.active.console.mapper.UserMapper;
 
 
@@ -111,9 +113,13 @@ public class UserService extends BaseService<User> {
 		User userCons = new User();
 		userCons.setMobile(mobile);
 		User user = userMapper.selectOne(userCons);
+		BigDecimal newBalance = user.getBalance().subtract(money);
+		if(newBalance.doubleValue() < 0){
+			throw new InvalidParamException(CodeMsg.WITHDRAW_INSUFFICIENT_BALANCE);
+		}
 		User updateUser = new User();
 		updateUser.setId(user.getId());
-		updateUser.setBalance(user.getBalance().subtract(money));
+		updateUser.setBalance(newBalance);
 		this.updateByIdSelective(updateUser);
 		//add TradeRecord
 		TradeRecord tradeRecord = new TradeRecord();

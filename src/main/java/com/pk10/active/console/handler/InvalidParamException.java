@@ -12,6 +12,8 @@ package com.pk10.active.console.handler;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.pk10.active.console.common.bean.CodeMsg;
+
 /**
  *
  * InvalidParamException
@@ -25,6 +27,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class InvalidParamException extends RuntimeException{
 	
+	private CodeMsg codeMsg;
+	
+	
+	public CodeMsg getCodeMsg() {
+		return codeMsg;
+	}
+
 	/**
 	 * serialVersionUID:TODO（用一句话描述这个变量表示什么）
 	 *
@@ -35,6 +44,11 @@ public class InvalidParamException extends RuntimeException{
 
 	public InvalidParamException(String message) {
 		super(message);
+	}
+	
+	public InvalidParamException(CodeMsg codeMsg) {
+		super();
+		this.codeMsg = codeMsg;
 	}
 
 	public InvalidParamException() {

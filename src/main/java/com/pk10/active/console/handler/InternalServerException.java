@@ -12,6 +12,8 @@ package com.pk10.active.console.handler;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.pk10.active.console.common.bean.CodeMsg;
+
 /**
  *
  * InvalidParamException
@@ -24,6 +26,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 public class InternalServerException extends RuntimeException{
+	
+	private CodeMsg codeMsg;
+	
 	
 	/**
 	 * serialVersionUID:TODO（用一句话描述这个变量表示什么）

@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.constant.RuleTypeEnum;
 import com.pk10.active.console.common.constant.TradeTypeEnum;
@@ -19,6 +20,7 @@ import com.pk10.active.console.entity.BetRecord;
 import com.pk10.active.console.entity.LotteryHistory;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
+import com.pk10.active.console.handler.InvalidParamException;
 import com.pk10.active.console.vo.Bet;
 import com.pk10.active.console.vo.BetVo;
 
@@ -64,6 +66,9 @@ public class BetRecordService extends BaseService<BetRecord> {
 		}
 		betInfoService.saveBatchSelective(betInfoList);
 		BigDecimal balance = user.getBalance().subtract(moneySum);
+		if(balance.doubleValue() < 0){
+			throw new InvalidParamException(CodeMsg.BET_INSUFFICIENT_BALANCE);
+		}
 		user.setBalance(balance);
 		//2、BetRecord
 		BetRecord betRecord = new BetRecord();

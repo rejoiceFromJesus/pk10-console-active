@@ -27,8 +27,11 @@ class GlobalExceptionHandler {
   
   @ExceptionHandler(value={InvalidParamException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  public Result paramError(HttpServletRequest req, Exception e) throws Exception {
+  public Result paramError(HttpServletRequest req, InvalidParamException e) throws Exception {
 	  logger.error("exception handler, exception occurs:",e);
+	  if(e.getCodeMsg() != null){
+		  return Result.error(e.getCodeMsg());
+	  }
 	  return Result.paramError(e.getMessage());
   }
   
