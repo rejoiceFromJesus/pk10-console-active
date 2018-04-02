@@ -46,7 +46,7 @@ public class BetRecordService extends BaseService<BetRecord> {
 	 * void
 	*/
 	public void bet(BetVo betVo, User user) {
-		String currentTime = DateTime.now().toString(Constant.DATE_FORMAT_PATTERN2);
+		String currentTime = DateTime.now().toString(Constant.DATE_FORMAT_PATTERN4);
 		Map<String,BigDecimal> ratesMap = cacheService.getRatesMap();
 		BigDecimal moneySum = new BigDecimal(0);
 		//1、BetInfo

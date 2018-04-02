@@ -67,7 +67,7 @@ public class BetController {
 			return Result.error(CodeMsg.SERVER_ERROR);
 		}
 		if(!currentPeriodLottery.getIssue().equals(betVo.getPeriod())){
-			return Result.paramError("投注的期数不正确，请刷新重试");
+			return Result.paramError("投注的期数不正确，请刷新重试，投注期数为："+betVo.getPeriod()+",当前期数为："+currentPeriodLottery.getIssue());
 		}
 		long now = DateTime.now().getMillis();
 		if((new DateTime(currentPeriodLottery.getOpenDateTime()).getMillis() - now )/1000 < 10 ){

@@ -70,6 +70,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 				return true;
 			}
 			if(requestURI.startsWith("/client")){
+				 if(request.getMethod().equals("OPTIONS")){
+					 return true;
+				 }
 				 response.setCharacterEncoding("UTF-8");
 				 response.getWriter().write(JsonUtil.toJson(Result.error(CodeMsg.UNCERTIFICATED)));
 				 response.setStatus(HttpStatus.UNAUTHORIZED.value());
