@@ -65,14 +65,13 @@ public class UserService extends BaseService<User> {
 	}
 	
 	/* (non-Javadoc)
-	 * @see com.pk10.active.console.service.BaseService#save(java.lang.Object)
+	 * @see com.pk10.active.console.service.BaseService#saveSelective(java.lang.Object)
 	 */
 	@Override
-	public void save(User user) throws Exception {
+	public Integer saveSelective(User user) {
 		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
-		super.save(user);
+		return super.saveSelective(user);
 	}
-	
 
 	public void recharge(String mobile, BigDecimal money) {
 		User userCons = new User();

@@ -18,6 +18,11 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  *
@@ -37,7 +42,7 @@ public class User extends BaseEntity {
 	
 	
 	@Transient
-	@JsonIgnore
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String oldPassword;
 	
 	public String getOldPassword() {
@@ -51,7 +56,7 @@ public class User extends BaseEntity {
 	private Integer id;
 	private String username;
 	private BigDecimal balance;
-	@JsonIgnore
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	private String mobile;
 	private Integer isAdmin;
