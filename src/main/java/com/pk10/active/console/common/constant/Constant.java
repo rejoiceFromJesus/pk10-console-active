@@ -57,8 +57,8 @@ public abstract class Constant {
 		"/swagger-resources/configuration/ui",
 		"/swagger-resources",
 		"/user/register",
-		"/user/client/register",
-		"/user/client/logout",
+		"/client/user/login",
+		"/client/user/register",
 		"/error"};
 
 }

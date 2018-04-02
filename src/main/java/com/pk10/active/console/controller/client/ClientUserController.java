@@ -20,6 +20,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +69,15 @@ public class ClientUserController {
 			return Result.error(CodeMsg.LOGIN_ERROR);
 		}
 		return Result.success(user);
+	}
+	
+	
+	@GetMapping("/mobile/{mobile}")
+	@ApiOperation(value = "用户查询", notes = "根据手机号查询")
+	public Result<User> findByMobile(@PathVariable("mobile") String mobile){
+		User user = new User();
+		user.setMobile(mobile);
+		return Result.success(userService.queryOne(user));
 	}
 
 	@PostMapping("/register")

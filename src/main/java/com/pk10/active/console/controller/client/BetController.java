@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
+import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.service.BetRecordService;
 import com.pk10.active.console.service.CacheService;
@@ -56,6 +57,7 @@ public class BetController {
 	@ApiOperation(value = "投注", notes = "可以一次性投多注")
 	@PostMapping
 	public Result<User> bet(@RequestBody BetVo betVo, HttpSession session){
+		User user = (User) session.getAttribute(Constant.SESSION_KEY);
 		if(betVo.getBetList().size() <= 0){
 			return Result.paramError("投注的注数必须大于0");
 		}
@@ -71,9 +73,6 @@ public class BetController {
 		if((new DateTime(currentPeriodLottery.getOpenDateTime()).getMillis() - now )/1000 < 10 ){
 			return Result.error(CodeMsg.BET_CLOSED);
 		}
-		User user = new User();
-		user.setMobile("1234");
-		user.setBalance(new BigDecimal(10000));
 		betRecordService.bet(betVo,user);
 		return Result.success(user);
 	}

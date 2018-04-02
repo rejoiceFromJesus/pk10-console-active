@@ -53,7 +53,7 @@ public class SessionInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object handler) throws Exception {
 		User user = (User) request.getSession().getAttribute(Constant.SESSION_KEY);
 		String requestURI = request.getRequestURI();
-		if(request.getSession().getAttribute(Constant.SESSION_KEY) != null){
+		if(user != null){
 			if(user.getIsAdmin() == 0){
 				if(requestURI.startsWith("/client")){
 					return true;
