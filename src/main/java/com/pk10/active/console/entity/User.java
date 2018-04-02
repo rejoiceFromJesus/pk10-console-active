@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @version 1.0.0
  *
  */
-@Table(name="user")
+@Table(name="pk_user")
 public class User extends BaseEntity {
 	
 	@Transient
