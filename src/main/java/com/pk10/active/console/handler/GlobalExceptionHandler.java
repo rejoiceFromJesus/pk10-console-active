@@ -2,6 +2,7 @@ package com.pk10.active.console.handler;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.MethodNotSupportedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,13 @@ class GlobalExceptionHandler {
 		  return Result.error(e.getCodeMsg());
 	  }
 	  return Result.paramError(e.getMessage());
+  }
+  
+  @ExceptionHandler(value={MethodNotSupportedException.class})
+  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+  public Result serverError(HttpServletRequest req, MethodNotSupportedException e) throws Exception {
+	  logger.error("exception handler, exception occurs:",e);
+	  return Result.serverError(e.getMessage());
   }
   
   @ExceptionHandler(value={Exception.class})
