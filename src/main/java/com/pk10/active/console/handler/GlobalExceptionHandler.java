@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
 /**
 * @ClassName: GlobalDefaultExceptionHandler 
@@ -19,24 +20,32 @@ import com.pk10.active.console.common.bean.Result;
 *
  */
 @ControllerAdvice
+@ResponseBody
 class GlobalExceptionHandler {
   public static final String DEFAULT_ERROR_VIEW = "error";
   private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
   
   @ExceptionHandler(value={InvalidParamException.class})
   @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ResponseBody
   public Result paramError(HttpServletRequest req, Exception e) throws Exception {
 	  logger.error("exception handler, exception occurs:",e);
 	  return Result.paramError(e.getMessage());
   }
   
   @ExceptionHandler(value={Exception.class})
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
-  @ResponseBody
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Result serverError(HttpServletRequest req, Exception e) throws Exception {
 	  logger.error("exception handler, exception occurs:",e);
 	  return Result.serverError(null);
+  }
+  
+  
+  
+  @ExceptionHandler(value={UnauthorizedException.class})
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  public Result unauthorized(HttpServletRequest req, Exception e) throws Exception {
+	  logger.error("exception handler, exception occurs:",e);
+	  return Result.error(CodeMsg.UNAUTHORIZED);
   }
   
 }
