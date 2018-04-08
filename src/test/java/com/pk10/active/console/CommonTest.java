@@ -68,6 +68,6 @@ public class CommonTest {
 	}
 	@Test
 	public void md5Test(){
-		System.out.println(DigestUtils.md5Hex("admin"));
+		System.out.println(DigestUtils.md5Hex("13"));
 	}
 }

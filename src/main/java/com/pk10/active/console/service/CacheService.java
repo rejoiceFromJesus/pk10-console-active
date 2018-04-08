@@ -84,7 +84,6 @@ public class CacheService{
 	public CurrentPeriodLottery refreshCurrentPeriodLottery() {
 		String url = "https://www.cp333789.com/getLotteryBase.do?gameCode=bjpk10";
 		String result = restTemplate.getForObject(url, String.class);
-		System.err.println(result);
 		CurrentPeriodLottery lottery = JsonUtil.toBean(result, CurrentPeriodLottery.class);
 		List<Integer> openNum = lottery.getOpenNum();
 		List<String> dragonTiger = new ArrayList<String>();

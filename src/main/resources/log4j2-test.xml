@@ -65,6 +65,7 @@
 	<loggers>
 		<!--过滤掉spring和hibernate的一些无用的debug信息 -->
 		<logger name="mapper" level="DEBUG" />	
+		<logger name="mapper.com.pk10.active.console.mapper.LotteryHistoryMapper" level="info" />	
 		<logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />
 		<root level="info">
 			<appender-ref ref="Console" />

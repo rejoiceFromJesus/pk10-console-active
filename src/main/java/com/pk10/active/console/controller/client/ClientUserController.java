@@ -98,7 +98,6 @@ public class ClientUserController {
 			return Result.error(CodeMsg.MOBILE_EXIST);
 		}
 		user.setUsername(user.getMobile());
-		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
 		userService.saveSelective(user);
 		return Result.success(null);
 	}

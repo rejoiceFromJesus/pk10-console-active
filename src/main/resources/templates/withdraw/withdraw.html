@@ -1,0 +1,74 @@
+<div id="withdraw-table"></div>
+<div id="withdraw-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-left: 20px;">
+		<input
+			class="easyui-validatebox" name="mobile" placeholder="手机号"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchTradeRecord()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+
+
+
+
+
+
+<script>
+$(function(){
+	initTradeRecordTable()
+})
+function initTradeRecordTable(){
+	$('#withdraw-table').datagrid({
+	    url:'/withdraw/page',
+	    queryParams:{
+	    	sort:"applyTime",
+	    	order:"desc"
+	    },
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#withdraw-toolbar",
+	    striped:true,
+	    pagination:true,
+	    rowStyler:function(){
+	    	return "height:35px;"
+	    },
+	    pageList:[10,30,50,100],
+	    
+	    columns:[[
+			{field:'mobile',title:'手机号',width:"18%"},
+			{field:'money',title:'金额',width:"16%"},
+			{field:'applyTime',title:'申请时间',width:"18%"},
+			{field:'statusLabel',title:'状态',width:"16%"},
+			{field:'confirmTime',title:'确认时间',width:"18%"},
+			{field:'opt',title:'操作',width:"15%",formatter:function(value,row,index){
+				if(row.status == 1){
+					return ' <a  href="#" class="button button-primary button-pill   button-tiny button-royal" onClick="confirmWithdraw('+row.id+',\''+row.mobile+'\')">确认</a>';
+				}
+				return '';
+			}}
+			]]
+	})};
+	function searchTradeRecord() {
+		$('#withdraw-table').datagrid('load', {
+			mobile : $("#withdraw-toolbar").find("input[name='mobile']").val(),
+			sort:"applyTime",
+	    	order:"desc",
+			likes:"mobile"
+		});
+	}
+	
+	
+	function confirmWithdraw(id,mobile) {
+		$.messager.confirm('确认提现', '你确定要确认提现吗?', function(r){
+			if (r){
+				$.ajax({type:"put",url:"/withdraw/confirm/"+id}).done(function(data){
+					$('#withdraw-table').datagrid('reload');
+				});
+			}
+		});
+	}
+
+	
+</script>
