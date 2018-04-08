@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
+import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.constant.TradeTypeEnum;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
@@ -62,8 +63,9 @@ public class TradeController {
 	@ApiOperation(value = "交易记录", notes = "只返回最新50条")
 	@GetMapping("/recent")
 	public Result<List<TradeRecord>> recentList(HttpSession session){
+		User user = (User) session.getAttribute(Constant.SESSION_KEY);
 		TradeRecord cons = new TradeRecord();
-		cons.setMobile("1234");
+		cons.setMobile(user.getMobile());
 		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
 		return Result.success(tradePageInfo.getList());
 	}
@@ -71,8 +73,9 @@ public class TradeController {
 	@ApiOperation(value = "提现记录", notes = "只返回最新50条")
 	@GetMapping("/withdraw/recent")
 	public Result<List<TradeRecord>> recentWithdrawList(HttpSession session){
+		User user = (User) session.getAttribute(Constant.SESSION_KEY);
 		TradeRecord cons = new TradeRecord();
-		cons.setMobile("1234");
+		cons.setMobile(user.getMobile());
 		cons.setType(TradeTypeEnum.WITHDRAW.value());
 		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
 		return Result.success(tradePageInfo.getList());

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.github.pagehelper.PageInfo;
 import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
+import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.entity.RechargeRecord;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
@@ -61,8 +62,9 @@ public class RechargeController {
 	@ApiOperation(value = "充值记录", notes = "只返回最新50条")
 	@GetMapping("/recent")
 	public Result<List<RechargeRecord>> recentList(HttpSession session){
+		User user = (User) session.getAttribute(Constant.SESSION_KEY);
 		RechargeRecord cons = new RechargeRecord();
-		cons.setMobile("1234");
+		cons.setMobile(user.getMobile());
 		PageInfo<RechargeRecord>  tradePageInfo = rechargeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
 		return Result.success(tradePageInfo.getList());
 	}

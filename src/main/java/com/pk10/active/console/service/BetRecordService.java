@@ -65,6 +65,7 @@ public class BetRecordService extends BaseService<BetRecord> {
 			moneySum = Arith.addBigDecimal(moneySum, betInfo.getMoney());
 		}
 		betInfoService.saveBatchSelective(betInfoList);
+		user = userService.queryByID(user.getId());
 		BigDecimal balance = user.getBalance().subtract(moneySum);
 		if(balance.doubleValue() < 0){
 			throw new InvalidParamException(CodeMsg.BET_INSUFFICIENT_BALANCE);
