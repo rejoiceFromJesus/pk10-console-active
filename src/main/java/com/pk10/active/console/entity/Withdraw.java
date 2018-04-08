@@ -32,6 +32,8 @@ public class Withdraw extends BaseEntity {
 	private BigDecimal money;
 	private Integer status;
 	private String applyTime;
+	private String confirmTime;
+	
 	
 	public String getStatusLabel(){
 		return WithdrawStatusEnum.label(this.status);
@@ -59,6 +61,12 @@ public class Withdraw extends BaseEntity {
 	}
 	public void setApplyTime(String applyTime) {
 		this.applyTime = applyTime;
+	}
+	public String getConfirmTime() {
+		return confirmTime;
+	}
+	public void setConfirmTime(String confirmTime) {
+		this.confirmTime = confirmTime;
 	}
 	
 	

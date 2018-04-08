@@ -70,16 +70,6 @@ public class TradeController {
 		return Result.success(tradePageInfo.getList());
 	}
 	
-	@ApiOperation(value = "提现记录", notes = "只返回最新50条")
-	@GetMapping("/withdraw/recent")
-	public Result<List<TradeRecord>> recentWithdrawList(HttpSession session){
-		User user = (User) session.getAttribute(Constant.SESSION_KEY);
-		TradeRecord cons = new TradeRecord();
-		cons.setMobile(user.getMobile());
-		cons.setType(TradeTypeEnum.WITHDRAW.value());
-		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
-		return Result.success(tradePageInfo.getList());
-	}
 	
 	
 }

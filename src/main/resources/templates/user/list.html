@@ -111,8 +111,8 @@ function initUserTable(){
 			{field:'updateTime',title:'更新时间',width:"10%"},
 			{field:'opt',title:'操作',width:"18%",formatter: function(value,row,index){
 				return '<a  href="#" class="button button-primary button-pill  button-tiny" onClick="changePwd('+row.id+',\''+row.mobile+'\')">修改密码</a>'+
-				' <a  href="#" class="button button-primary button-pill   button-tiny button-action" onClick="recharge('+row.id+',\''+row.mobile+'\')">充值</a>'+
-				 ' <a  href="#" class="button button-primary button-pill   button-tiny button-royal" onClick="withdraw('+row.id+',\''+row.mobile+'\')">提现</a>';
+				' <a  href="#" class="button button-primary button-pill   button-tiny button-action" onClick="recharge('+row.id+',\''+row.mobile+'\')">充值</a>'
+				/*  ' <a  href="#" class="button button-primary button-pill   button-tiny button-royal" onClick="withdraw('+row.id+',\''+row.mobile+'\')">提现</a>' */;
 			}}
 			]]
 	})};
@@ -160,31 +160,7 @@ var userMethod = "GET";
 			}
 		});
 	}
-	
-	function withdraw(id,mobile) {
-		$.messager.prompt('【'+mobile+'】提现', '请输入提现金额:', function(r,e){
-			if (r){
-				　if (!(/(^[1-9]\d*$)/.test(r))) { 
-						withdraw(id,mobile);
-				　　　　　　alert('输入的不是正整数'); 
-				　　　　　　return false; 
-				　　　　}else { 
-					$.ajax({type:"put",contentType:"application/json;charset=utf-8", url:"/user/withdraw",data:JSON.stringify({"mobile":mobile,"money":r})}).done(function(data){
-						$("#user-table").datagrid("reload");
-	    				 $('#user-table').datagrid('clearChecked')
-						alert(data.msg);
-					})
-				　　　　} 
-				
-			}else{
-				if(r != undefined){
-					withdraw(id,mobile);
-					alert("金额不能为空");
-				}
-				
-			}
-		});
-	}
+
 	
 	function submitChangePwd(){
 		if (!$('#pwd-form').form('validate')) {
