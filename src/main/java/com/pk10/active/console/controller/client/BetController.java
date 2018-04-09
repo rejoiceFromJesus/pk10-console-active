@@ -73,7 +73,7 @@ public class BetController {
 		if((new DateTime(currentPeriodLottery.getOpenDateTime()).getMillis() - now )/1000 < 10 ){
 			return Result.error(CodeMsg.BET_CLOSED);
 		}
-		betRecordService.bet(betVo,user);
+		user = betRecordService.bet(betVo,user);
 		return Result.success(user);
 	}
 	

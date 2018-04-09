@@ -47,7 +47,7 @@ public class InvalidParamException extends RuntimeException{
 	}
 	
 	public InvalidParamException(CodeMsg codeMsg) {
-		super();
+		super(codeMsg.getMsg());
 		this.codeMsg = codeMsg;
 	}
 

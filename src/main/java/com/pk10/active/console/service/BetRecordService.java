@@ -45,7 +45,7 @@ public class BetRecordService extends BaseService<BetRecord> {
 	 * @param user
 	 * void
 	*/
-	public void bet(BetVo betVo, User user) {
+	public User bet(BetVo betVo, User user) {
 		String currentTime = DateTime.now().toString(Constant.DATE_FORMAT_PATTERN4);
 		Map<String,BigDecimal> ratesMap = cacheService.getRatesMap();
 		BigDecimal moneySum = new BigDecimal(0);
@@ -96,6 +96,7 @@ public class BetRecordService extends BaseService<BetRecord> {
 		newUser.setMobile(user.getMobile());
 		newUser.setBalance(balance);
 		userService.updateByMobileSelective(newUser);
+		return user;
 	}
 
 
@@ -113,9 +114,11 @@ public class BetRecordService extends BaseService<BetRecord> {
 		//1、betInfo
 		settleBetInfos(betRecord, lotteryHistory);
 		//2、betRecord
-		betRecord.setUpdateTime(null);
-		betRecord.setIsOpen(true);
-		betRecordService.updateByIdSelective(betRecord);
+		BetRecord newBetRecord = new BetRecord();
+		newBetRecord.setId(betRecord.getId());
+		newBetRecord.setIsOpen(true);
+		newBetRecord.setBonus(betRecord.getBonus());
+		betRecordService.updateByIdSelective(newBetRecord);
 		user.setBalance(user.getBalance().add(betRecord.getBonus()));
 		//3、tradeRecord
 		settleTradeRecord(betRecord,user);
@@ -160,6 +163,7 @@ public class BetRecordService extends BaseService<BetRecord> {
 		BetInfo betInfoCons = new BetInfo();
 		betInfoCons.setPeriod(betRecord.getPeriod());
 		betInfoCons.setMobile(betRecord.getMobile());
+		betInfoCons.setBetTime(betRecord.getBetTime());
 		int [] oneToSum = RejoiceUtil.parseString2IntArray(lotteryHistory.getOneTwoSum().split(","));
 		int [] openNum = RejoiceUtil.parseString2IntArray(lotteryHistory.getOpenNum().split(","));
 		int [] oddEvent = RejoiceUtil.parseString2IntArray(lotteryHistory.getOddEven().split(","));
@@ -217,7 +221,11 @@ public class BetRecordService extends BaseService<BetRecord> {
 					}
 				}
 			}
-			betInfoService.updateByIdSelective(betInfo);
+			BetInfo newBetInfo = new BetInfo();
+			newBetInfo.setId(betInfo.getId());
+			newBetInfo.setBonus(betInfo.getBonus());
+			newBetInfo.setLuckyResult(betInfo.getLuckyResult());
+			betInfoService.updateByIdSelective(newBetInfo);
 		}
 		
 		betRecord.setBonus(bonusSum);
