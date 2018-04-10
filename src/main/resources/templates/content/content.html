@@ -1,0 +1,162 @@
+<div id="content-table"></div>
+<div id="content-toolbar" style="padding: 5px; height: auto">
+	<div style="margin-bottom: 5px">
+		<a href="#" onclick="addContent(this)" class="easyui-linkbutton"
+			iconCls="icon-add" plain="false">新增</a> <a href="#"
+			onclick="updateContent(this)" class="easyui-linkbutton"
+			iconCls="icon-edit" plain="false">修改</a> <a href="#"
+			class="easyui-linkbutton" onclick="deleteContent(this)" iconCls="icon-remove" plain="false">删除</a>
+	</div>
+	<div style="margin-left: 20px;">
+		<input class="easyui-validatebox" name="title" placeholder="标题"
+			style="width: 150px" />&nbsp;&nbsp;&nbsp;&nbsp; <a href="#"
+			class="easyui-linkbutton" plan="true" onclick="searchContent()"
+			iconCls="icon-search">查询</a>
+	</div>
+</div>
+<div id="contentDialog" class="easyui-dialog"
+	style="width: 600px; height: 500px; padding: 10px 20px" closed="true"
+	buttons="#contentButtons">
+	<form id="contentForm" class="fm" method="post">
+		<input type="hidden" name="id" />
+		<input type="hidden" name="oldPassword" />
+		<div class="fitem">
+			<label>类型:</label> <input required="true" name="type"   value="100" class="easyui-combobox"  data-options="
+				url:'/enum/content-type-enum',
+				method:'get',
+				valueField:'value',
+				textField:'label',
+				panelHeight:'auto'"/>
+		</div>
+			<div class="fitem">
+			<label>标题:</label> <input name="title" class="easyui-textbox" data-options="multiline:true" style="width:200px;height:200px"
+				type="text" required="true" />
+		</div>
+		<div class="fitem">
+			<label>内容:</label> <input  required="true" name="content" class="easyui-textbox" />
+		</div>
+		<div class="fitem">
+			<label>图片:</label> <input class="easyui-filebox" alt="选择图片" name="picFile" data-options="buttonText:'选择文件',prompt:'请选择图片...'" style="width:206px;" />
+		</div>
+	</form>
+</div>
+
+
+<div id="contentButtons">
+		<a href="javascript:void(0)" class="easyui-linkbutton c6"
+			iconCls="icon-ok" onclick="saveContent()" style="width: 90px">确定</a> <a
+			href="javascript:void(0)" class="easyui-linkbutton"
+			iconCls="icon-cancel"
+			onclick="javascript:$('#contentDialog').dialog('close')"
+			style="width: 90px">取消</a>
+</div>
+
+
+<script>
+$(function(){
+	initContentTable()
+})
+function initContentTable(){
+	$('#content-table').datagrid({
+	    url:'/content/page/',
+	    fitColumns:true,
+	    method:'get',
+	    nowrap:false,
+	    toolbar:"#content-toolbar",
+	    striped:true,
+	    pagination:true,
+	    pageList:[10,30,50,100],
+	    rowStyler:function(){
+	    	return "height:30px;"
+	    },
+	    columns:[[
+			{field:'id',title:'选择',checkbox:true,width:"10%"},
+			{field:'typeLabel',title:'类型',width:"20%"},
+			{field:'title',title:'标题',width:"25%"},
+			{field:'content',title:'内容',width:"34%"},
+			{field:'pic',title:'图片',width:"20%",formatter:function(value,row,index){
+				if(value){
+					return '<img style="width:40px;height:40px;margin:4px;" src="'+value+'" />';
+				}
+				return '<div style="width:40px;height:40px;margin:4px;"></div>';
+			}}
+			]]
+	})};
+var contentMethod = "GET";
+	function addContent() {
+		$('#contentDialog').dialog('open').dialog('setTitle', '新增内容');
+		$('#contentForm').form('clear');
+		contentMethod="POST";
+	}
+	
+	function updateContent() {
+		$('#contentForm').form('clear');
+		var rows = $('#content-table').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行")
+		}else if(rows.length > 1){
+			alert("只能选择一行")
+		}else{
+			$('#contentDialog').dialog('open').dialog('setTitle', '编辑内容');
+			$('#contentForm').form('load', rows[0]);
+		}
+		contentMethod = "PUT"
+	}
+	function deleteContent(){
+		var rows = $('#content-table').datagrid('getChecked');
+		if(rows.length==0){
+			alert("至少选择一行");
+		}else{
+			confirm('温馨提示','您确定要删除吗?',null,function(r){
+				if (r){
+					$.ajax({
+						type : "DELETE",
+						url : "/content/"+getSelectedIds(rows),
+						contentType:"application/json;charset=utf-8",
+						//data :  JSON.stringify(params),
+						success : function(msg) {
+							$("#content-table").datagrid("reload");
+		    				 $('#content-table').datagrid('clearChecked')
+							$.messager.alert({
+				    			title: "温馨提示",
+				    			msg: "删除成功",
+				    			fn: function(){
+				    				
+				    			}
+				    		});
+						}
+					});
+				}
+			});
+		}
+	}
+	function saveContent(){
+		if (!$('#contentForm').form('validate')) {
+			$.messager.alert('提示', '表单还未填写完成!');
+			return;
+		}
+		//提交到后台的RESTful
+		$.ajax({
+			type : contentMethod,
+			url : "/content/save",
+	        contentType: 'multipart/form-data',
+	        contentType:false,
+			data :   new FormData($("#contentForm")[0]),
+			  processData: false, //prevent jQuery from automatically transforming the data into a query string
+              cache: false,
+			success : function(msg) {
+				$('#contentDialog').dialog('close');
+				$("#content-table").datagrid("reload");
+				 $('#content-table').datagrid('clearChecked')
+				$.messager.alert({
+	    			title: $('#contentDialog').panel('options').title,
+	    			msg: "操作成功",
+	    			fn: function(){
+	    				$("#content-table").datagrid("reload");
+	    			}
+	    		});
+			}
+		});
+	}
+	
+</script>

@@ -65,6 +65,7 @@
 	<loggers>
 		<logger name="mapper" level="DEBUG" />	
 		<logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />	
+		<logger name="mapper.com.pk10.active.console.mapper.LotteryHistoryMapper" level="warn" />	
 		<root level="info">
 			<appender-ref ref="Console" />
 			<appender-ref ref="RollingFileInfo" />

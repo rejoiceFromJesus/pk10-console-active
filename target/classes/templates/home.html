@@ -30,7 +30,8 @@
          	<li>
          		<span>系统管理</span>
          		<ul>
-	         		<li data-options="attributes:{'url':'user/list.html'}">用户管理</li>
+	         		<li data-options="attributes:{'url':'user/list.html'}">用户管理</li>\
+	         		<li data-options="attributes:{'url':'content/content.html'}">内容管理</li>
 	         	</ul>
          	</li>
          	<li>
@@ -44,6 +45,7 @@
          	<li>
          		<span>交易管理</span>
          		<ul>
+         			<li data-options="attributes:{'url':'withdraw/withdraw.html'}">提现记录</li>
 	         		<li data-options="attributes:{'url':'trade/recharge-record.html'}">充值记录</li>
 	         		<li data-options="attributes:{'url':'bet/bet-record.html'}">投注记录</li>
 	         		<li data-options="attributes:{'url':'trade/trade-record.html'}">交易记录</li>
@@ -54,7 +56,8 @@
     <div  data-options="region:'center',title:''" >
     	<div id="tabs" class="easyui-tabs"  style="height:100%;widht:100%;">
 		    <div class="bg" title="首页" style="padding:20px;font-size:20px;color:white;">
-		        	welcome to rejoice manage system
+		        	welcome to rejoice manage system<br/>
+		        	<img alt="本站二维码" th:src="@{/public/qrcode}" />
 		    </div>
 		  
 		</div>
