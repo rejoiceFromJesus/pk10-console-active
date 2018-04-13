@@ -25,6 +25,7 @@ public abstract class Constant {
 	public static final String PREFIX="rejoice.activeconsole";
 	public static final String SUCCESS="success";
 	public static final String SESSION_KEY = "loginUser";
+	public static final String COOKIE_TOKEN = "token";
 	
 	
 	public static final String[] RULE_TITLES = {"冠亚和","第一名","第二名","第三名","第四名","第五名","第六名","第七名","第八名","第九名","第十名"};

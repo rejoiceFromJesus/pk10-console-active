@@ -44,10 +44,10 @@ public class ClientContentController {
 	
 	@ApiOperation(value = "查询单个内容", notes = "查询指定类型的单个内容,1-游戏规则，2-管理员二维码")
 	@GetMapping("/type/{type}")
-	public Result<Content> findOneByType(@PathVariable("type")Integer type){
+	public Result<List<Content>> findOneByType(@PathVariable("type")Integer type){
 		Content content = new Content();
 		content.setType(type);
 		List<Content> list = contentService.queryListByWhere(content);
-		return list.size() > 0 ? Result.success(list.get(0)): Result.success(null);
+		return Result.success(list);
 	}
 }

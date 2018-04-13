@@ -10,10 +10,10 @@
 package com.pk10.active.console.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
+import org.apache.http.HttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,19 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
 import com.pk10.active.console.common.constant.Constant;
+import com.pk10.active.console.common.util.CookieUtils;
 import com.pk10.active.console.entity.RechargeRecord;
 import com.pk10.active.console.entity.User;
-import com.pk10.active.console.handler.InvalidParamException;
 import com.pk10.active.console.service.UserService;
-import com.pk10.active.console.vo.LoginVo;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 
 /**
  *
@@ -69,7 +62,7 @@ public class UserController extends BaseController<User,UserService>{
 	}
 	
 	@PostMapping("login")
-	public ModelAndView login(User user,HttpServletRequest request){
+	public ModelAndView login(User user,HttpServletRequest request,HttpServletResponse response){
 		ModelAndView model = new ModelAndView();
 		user.setPassword(DigestUtils.md5Hex(user.getPassword()));
 		user = this.getService().queryOne(user);
