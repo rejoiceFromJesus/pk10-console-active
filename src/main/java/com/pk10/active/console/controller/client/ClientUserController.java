@@ -84,7 +84,7 @@ public class ClientUserController {
 	@ApiOperation(value = "自动登录")
 	public Result<User> autoLogin(HttpServletRequest request,HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
-		String token = "";
+		String token = ""; 
 		for (Cookie cookie : cookies) {
 			if(cookie.getName().equals(Constant.COOKIE_TOKEN)){
 				token = cookie.getValue();
@@ -92,7 +92,7 @@ public class ClientUserController {
 			}
 		}
 		if(StringUtils.isBlank(token)){
-			Result.paramError("token不存在");
+			return Result.paramError("token不存在");
 		}
 		String[] tokenArr = token.split("-");
 		User userCons = new User();

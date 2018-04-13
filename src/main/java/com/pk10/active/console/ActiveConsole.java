@@ -28,10 +28,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.pk10.active.console.common.constant.ContentTypeEnum;
 import com.pk10.active.console.common.util.ImageService;
+import com.pk10.active.console.entity.Content;
+import com.pk10.active.console.service.ContentService;
 
 /**
  *
@@ -55,6 +57,9 @@ public class ActiveConsole {
 	public static final long THIRTY_MINUTES = 1800000; 
 	
 	@Autowired
+	ContentService contentService;
+	
+	@Autowired
 	ImageService imageService;
 
 	
@@ -68,9 +73,13 @@ public class ActiveConsole {
 	
 	@GetMapping(value = QRCODE_ENDPOINT, produces = MediaType.IMAGE_PNG_VALUE)
 	public ResponseEntity<byte[]> getQRCode(HttpServletRequest request) {
-		try {
-			return ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
-					.body(imageService.generateQRCodeAsync("http://"+request.getLocalAddr()+":"+request.getLocalPort(), 256, 256).get());
+		try { 
+			Content cons = new Content();
+			cons.setType(ContentTypeEnum.PK10_ADDRESS.value());
+			String contentStr = contentService.queryOne(cons).getContent();
+			System.err.println(contentStr);
+			return ResponseEntity.ok()
+					.body(imageService.generateQRCodeAsync(contentStr, 256, 256).get());
 		} catch (Exception ex) {
 			throw new InternalServerError("Error while generating QR code image.", ex);
 		}

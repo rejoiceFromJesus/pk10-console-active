@@ -60,6 +60,8 @@ public abstract class Constant {
 		"/user/register",
 		"/client/user/login",
 		"/client/user/register",
+		"/client/user/auto-login",
+		"/client/user/logout",
 		"/error"};
 
 }

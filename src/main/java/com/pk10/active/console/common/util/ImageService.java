@@ -22,7 +22,6 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 
 @Service
-@Cacheable(cacheNames = "qr-code-cache", sync = true)
 public class ImageService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
@@ -46,7 +45,6 @@ public class ImageService {
 		return new AsyncResult<byte[]>(generateQRCode(text, width, height));
 	}
 	
-	@CacheEvict(cacheNames = "qr-code-cache", allEntries = true)
 	public void purgeCache() {
 		LOGGER.info("Purging cache");
 	}
