@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
@@ -30,8 +31,10 @@ import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
 import com.pk10.active.console.common.constant.Constant;
 import com.pk10.active.console.common.constant.TradeTypeEnum;
+import com.pk10.active.console.entity.BetInfo;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
+import com.pk10.active.console.service.BetInfoService;
 import com.pk10.active.console.service.BetRecordService;
 import com.pk10.active.console.service.CacheService;
 import com.pk10.active.console.service.TradeRecordService;
@@ -60,6 +63,9 @@ public class TradeController {
 	@Autowired
 	CacheService cacheService;
 	
+	@Autowired
+	BetInfoService betInfoService;
+	
 	@ApiOperation(value = "交易记录", notes = "只返回最新50条")
 	@GetMapping("/recent")
 	public Result<List<TradeRecord>> recentList(HttpSession session){
@@ -68,6 +74,18 @@ public class TradeController {
 		cons.setMobile(user.getMobile());
 		PageInfo<TradeRecord>  tradePageInfo = tradeRecordService.queryListByPageAndOrder(cons, 1, 50, "trade_time desc");
 		return Result.success(tradePageInfo.getList());
+	}
+	
+	@ApiOperation(value = "投注详情", notes = "参数为：period、betTime")
+	@GetMapping("/bet-info")
+	public Result<List<BetInfo>> betInfoList(HttpSession session,@RequestParam("period") Integer period, @RequestParam("betTime") String betTime){
+		User user = (User) session.getAttribute(Constant.SESSION_KEY);
+		BetInfo cons = new BetInfo();
+		cons.setBetTime(betTime);
+		cons.setPeriod(period);
+		cons.setMobile(user.getMobile());
+		List<BetInfo> betInfoList = betInfoService.queryListByWhere(cons);
+		return Result.success(betInfoList);
 	}
 	
 	
