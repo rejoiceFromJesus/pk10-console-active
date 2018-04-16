@@ -1,5 +1,8 @@
 package com.pk10.active.console.entity;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 
 import javax.persistence.Table;
@@ -8,19 +11,30 @@ import com.pk10.active.console.common.constant.RuleTypeEnum;
 import com.pk10.active.console.common.constant.SideNameEnum;
 
 @Table(name="bet_info")
+@ApiModel("单个投注")
 public class BetInfo extends BaseEntity {
 
+	@ApiModelProperty("排名")
 	private Integer rank;
+	@ApiModelProperty("结果")
 	private Integer result;
+	@ApiModelProperty("手机号")
 	private String mobile;
+	@ApiModelProperty("期数")
 	private Integer period;
+	@ApiModelProperty("投注时间")
 	private String betTime;
+	@ApiModelProperty("投注金额")
 	private BigDecimal money;
+	@ApiModelProperty("奖金")
 	private BigDecimal bonus;
+	@ApiModelProperty("开奖结果-value")
 	private Integer luckyResult;
+	@ApiModelProperty("投注类型-value")
 	private Integer type;
+	@ApiModelProperty("赔率")
 	private BigDecimal rate;
-	
+	@ApiModelProperty("开奖结果-label")
 	public String getLuckyResultLabel(){
 		if(RuleTypeEnum.NUMBER.value().equals(type)){
 			return luckyResult == null ? null : luckyResult.toString();
@@ -28,6 +42,7 @@ public class BetInfo extends BaseEntity {
 			return SideNameEnum.label(luckyResult);
 		}
 	}
+	@ApiModelProperty("结果-label")
 	public String getResultLabel() {
 		if(RuleTypeEnum.SIDE.value().equals(type)){
 			return SideNameEnum.label(this.result);

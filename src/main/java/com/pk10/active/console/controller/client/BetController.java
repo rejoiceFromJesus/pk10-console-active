@@ -54,7 +54,7 @@ public class BetController {
 	@Autowired
 	CacheService cacheService;
 	
-	@ApiOperation(value = "投注", notes = "可以一次性投多注")
+	@ApiOperation(value = "投注", notes = "可以一次性投多注" )
 	@PostMapping
 	public Result<User> bet(@RequestBody BetVo betVo, HttpSession session){
 		User user = (User) session.getAttribute(Constant.SESSION_KEY);

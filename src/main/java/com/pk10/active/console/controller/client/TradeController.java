@@ -10,36 +10,31 @@
 package com.pk10.active.console.controller.client;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
-import com.pk10.active.console.common.bean.CodeMsg;
 import com.pk10.active.console.common.bean.Result;
 import com.pk10.active.console.common.constant.Constant;
-import com.pk10.active.console.common.constant.TradeTypeEnum;
 import com.pk10.active.console.entity.BetInfo;
 import com.pk10.active.console.entity.TradeRecord;
 import com.pk10.active.console.entity.User;
 import com.pk10.active.console.service.BetInfoService;
-import com.pk10.active.console.service.BetRecordService;
 import com.pk10.active.console.service.CacheService;
 import com.pk10.active.console.service.TradeRecordService;
-import com.pk10.active.console.vo.BetVo;
-import com.pk10.active.console.vo.CurrentPeriodLottery;
 
 
 /**
@@ -55,7 +50,7 @@ import com.pk10.active.console.vo.CurrentPeriodLottery;
 @RestController
 @RequestMapping("/client/trade")
 @Api(tags="交易模块")
-public class TradeController {
+public class TradeController { 
 	
 	@Autowired
 	TradeRecordService tradeRecordService;
@@ -76,7 +71,10 @@ public class TradeController {
 		return Result.success(tradePageInfo.getList());
 	}
 	
-	@ApiOperation(value = "投注详情", notes = "参数为：period、betTime")
+	@ApiOperation(value = "投注详情", notes = "参数为：period、betTime", responseContainer = "List")
+	@ApiImplicitParams(value={
+			@ApiImplicitParam(name="period",value="期数",dataType="int",paramType="query"),
+			@ApiImplicitParam(name="betTime",value="投注时间",paramType="query")})
 	@GetMapping("/bet-info")
 	public Result<List<BetInfo>> betInfoList(HttpSession session,@RequestParam("period") Integer period, @RequestParam("betTime") String betTime){
 		User user = (User) session.getAttribute(Constant.SESSION_KEY);
