@@ -13,7 +13,7 @@ public enum CodeMsg {
 	/**
 	 * 登录注册
 	 */
-	LOGIN_ERROR("500200","登录失败"),
+	LOGIN_ERROR("500200","账号与密码不匹配"),
 	USER_NOT_EXIST("500201","用户不存在"),
 	MOBILE_EXIST("500202", "手机号已存在"),
 	UNAUTHORIZED("500203", "未授权"),

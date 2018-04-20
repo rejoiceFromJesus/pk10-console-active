@@ -6,8 +6,8 @@ import java.util.Map;
 public enum ContentTypeEnum{
 
 	RULE("游戏规则",1),
-	PK10_ADDRESS("前端二维码地址",2),
-	ADMIN_QRCODE("管理员微信",3);
+	ADMIN_QRCODE("管理员微信",2),
+	PK10_ADDRESS("微信扫码入口",3);
 	
 	private static Map<String, ContentTypeEnum> LOOK_UP = new HashMap<>();
 	

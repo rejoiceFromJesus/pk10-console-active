@@ -39,21 +39,6 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-      <repositories>
-        <repository>
-            <id>jcentral</id>
-            <name>bintray</name>
-            <url>http://jcenter.bintray.com</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>jcenter-snapshots</id>
-            <name>jcenter</name>
-            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
-        </repository>
-    </repositories>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
 		<dependency>
@@ -382,7 +367,7 @@
                     <dependency>
                         <groupId>org.jruby</groupId>
                         <artifactId>jruby-complete</artifactId>
-                        <version>1.7.24</version>
+                        <version>1.7.21</version>
                     </dependency>
                 </dependencies>
                 <!-- Configure generic document generation settings -->
@@ -430,37 +415,7 @@
                 </executions>
             </plugin>
 
-            <!-- specify the main class for the manifest -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>io.github.robwin.swagger2markup.petstore.Application</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
 
-            <!-- copy dependencies to the lib directory -->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!-- copy the generated documents -->
             <plugin>

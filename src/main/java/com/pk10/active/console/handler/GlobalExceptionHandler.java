@@ -27,7 +27,6 @@ class GlobalExceptionHandler {
   private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
   
   @ExceptionHandler(value={InvalidParamException.class})
-  @ResponseStatus(HttpStatus.BAD_REQUEST)
   public Result paramError(HttpServletRequest req, InvalidParamException e) throws Exception {
 	  logger.error("exception handler, exception occurs:",e);
 	  if(e.getCodeMsg() != null){
@@ -37,14 +36,12 @@ class GlobalExceptionHandler {
   }
   
   @ExceptionHandler(value={MethodNotSupportedException.class})
-  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
   public Result serverError(HttpServletRequest req, MethodNotSupportedException e) throws Exception {
 	  logger.error("exception handler, exception occurs:",e);
 	  return Result.serverError(e.getMessage());
   }
   
   @ExceptionHandler(value={Exception.class})
-  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   public Result serverError(HttpServletRequest req, Exception e) throws Exception {
 	  logger.error("exception handler, exception occurs:",e);
 	  return Result.serverError(null);

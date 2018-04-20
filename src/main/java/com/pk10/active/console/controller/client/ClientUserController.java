@@ -85,6 +85,9 @@ public class ClientUserController {
 	public Result<User> autoLogin(HttpServletRequest request,HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
 		String token = ""; 
+		if(cookies == null){
+			return Result.paramError("token不存在");
+		}
 		for (Cookie cookie : cookies) {
 			if(cookie.getName().equals(Constant.COOKIE_TOKEN)){
 				token = cookie.getValue();

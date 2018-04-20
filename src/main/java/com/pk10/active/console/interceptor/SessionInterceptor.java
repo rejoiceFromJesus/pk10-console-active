@@ -9,6 +9,8 @@
  */
 package com.pk10.active.console.interceptor;
 
+import java.util.Enumeration;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,6 +56,10 @@ public class SessionInterceptor implements HandlerInterceptor {
 			HttpServletResponse response, Object handler) throws Exception {
 		User user = (User) request.getSession().getAttribute(Constant.SESSION_KEY);
 		String requestURI = request.getRequestURI();
+		Enumeration<String> headerNames = request.getHeaderNames();
+		while(headerNames.hasMoreElements()){
+			System.err.println(request.getHeader(headerNames.nextElement()));
+		}
 		if(user != null){
 			if(user.getIsAdmin() == 0){
 				if(requestURI.startsWith("/client")){
