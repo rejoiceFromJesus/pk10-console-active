@@ -36,7 +36,7 @@ public class DailyLotteryTask {
 		String lastDay = DateTime.now().minusDays(1).toString(Constant.DATE_FORMAT_PATTERN1);
 		while(true) {
 			try {
-				String url = "https://www.cp111678.com/data/bjpk10/lotteryList/"+lastDay+".json?"+DateTime.now().getMillis();
+				String url = "https://www.cp333789.com/data/bjpk10/lotteryList/"+lastDay+".json?"+DateTime.now().getMillis();
 				String result = restTemplate.getForObject(url, String.class);
 				IssueLotteryVo[] issueLotteryVos = JsonUtil.toBean(result, IssueLotteryVo[].class);
 				List<LotteryHistory> list = new ArrayList<LotteryHistory>();
