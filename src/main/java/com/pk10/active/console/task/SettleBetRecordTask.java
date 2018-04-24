@@ -16,6 +16,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +40,7 @@ import com.pk10.active.console.service.LotteryHistoryService;
  *
  */
 @Component
+@EnableAsync
 public class SettleBetRecordTask {
 
 	public static final Logger LOGGER = LoggerFactory
@@ -54,8 +57,8 @@ public class SettleBetRecordTask {
 	@Autowired
 	LotteryHistoryService lotteryHistoryService;
 
-	//@Scheduled(fixedRate=20000)
-	@Scheduled(cron = "0 0 1 * * ?")
+	//@Scheduled(fixedRate=2000)
+	@Scheduled(cron = "0 30 1 * * ?")
 	public void execute() {
 		LOGGER.info("SettleBetRecordTask starts =======================");
 		long startTime = System.currentTimeMillis();
@@ -63,6 +66,12 @@ public class SettleBetRecordTask {
 		int pageNum = 1;
 		BetRecord betRecordCons = new BetRecord();
 		betRecordCons.setIsOpen(false);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		while (true) {
 			PageInfo<BetRecord> betRecordPageInfo = betRecordService
 					.queryListByPageAndOrder(betRecordCons, pageNum, pageSize,

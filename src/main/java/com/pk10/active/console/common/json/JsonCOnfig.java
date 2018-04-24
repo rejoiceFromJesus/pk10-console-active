@@ -12,7 +12,6 @@ public class JsonCOnfig {
 
 	@Bean
 	public ObjectMapper mapper(){
-		System.err.println("1111111111111");
 		  return JsonUtil.buildObjectMapper();
 	}
 }

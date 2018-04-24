@@ -7,6 +7,7 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +29,7 @@ public class DailyLotteryTask {
 	@Autowired
 	public RestTemplate restTemplate;
 
-	//@Scheduled(cron="0/10 * * * * ?")
+	//@Scheduled(cron="0/2 * * * * ?")
 	@Scheduled(cron="0 0 1 * * ?")
 	public void execute() {
 		LOGGER.info("DailyLotteryTask starts.....");
@@ -36,6 +37,7 @@ public class DailyLotteryTask {
 		String lastDay = DateTime.now().minusDays(1).toString(Constant.DATE_FORMAT_PATTERN1);
 		while(true) {
 			try {
+				int x = 1/0;
 				String url = "https://www.cp333789.com/data/bjpk10/lotteryList/"+lastDay+".json?"+DateTime.now().getMillis();
 				String result = restTemplate.getForObject(url, String.class);
 				IssueLotteryVo[] issueLotteryVos = JsonUtil.toBean(result, IssueLotteryVo[].class);
