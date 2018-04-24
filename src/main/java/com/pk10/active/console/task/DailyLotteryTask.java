@@ -32,12 +32,16 @@ public class DailyLotteryTask {
 	//@Scheduled(cron="0/2 * * * * ?")
 	@Scheduled(cron="0 0 1 * * ?")
 	public void execute() {
+		int retryCount = 10;
 		LOGGER.info("DailyLotteryTask starts.....");
 		Long startTime = System.currentTimeMillis();
 		String lastDay = DateTime.now().minusDays(1).toString(Constant.DATE_FORMAT_PATTERN1);
 		while(true) {
+			if(retryCount <= 0) {
+				LOGGER.error("try {} times, no scceed,end loop",retryCount);
+				break;
+			}
 			try {
-				int x = 1/0;
 				String url = "https://www.cp333789.com/data/bjpk10/lotteryList/"+lastDay+".json?"+DateTime.now().getMillis();
 				String result = restTemplate.getForObject(url, String.class);
 				IssueLotteryVo[] issueLotteryVos = JsonUtil.toBean(result, IssueLotteryVo[].class);
@@ -74,6 +78,7 @@ public class DailyLotteryTask {
 			} catch (Exception e) {
 				LOGGER.warn("DailyLotteryTask fialed",e);
 				LOGGER.warn("will try again....");
+				retryCount--;
 				try {
 					Thread.sleep(2000);
 				} catch (InterruptedException e1) {
